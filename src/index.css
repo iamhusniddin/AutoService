@@ -1,0 +1,124 @@
+/* :root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+input, button, textarea, select, i:focus{
+  outline: none;
+}
+
+
+
+
+/*  */
+@layer components {
+  .main-section {
+    @apply grow
+     rounded-xl
+      bg-white
+       p-[15px]
+  }
+}
+
+
+/* stats-card */
+
+@layer components {
+  .stats-card{
+    @apply flex items-center justify-between
+    bg-primary
+    p-[10px]
+    rounded-2xl
+    shadow-md
+    hover:scale-105 duration-150
+    active:scale-95
+  }
+}
+
+/* inputlar uchun */
+@layer components {
+  .primary-input {
+      @apply bg-primary
+      rounded-lg
+      p-2
+      text-secondary
+      
+  }
+}
+
+/* buttonlar uchun  */
+@layer components {
+  .primary-btn {
+      @apply bg-primary
+      rounded-lg
+      p-2
+      text-secondary
+      hover:scale-105 duration-200
+      active:scale-95
+  }
+}
+
+/* Table and form */
+
+@layer components{
+  .table{
+    @apply w-[100%]
+    border-collapse
+    min-w-[120px]
+  }
+}
+
+@layer components{
+  .thead{
+    @apply
+     bg-tableColor
+    rounded-lg
+  }
+}
+
+@layer components{
+  th{
+    @apply p-[10px]
+    text-center 
+    text-sm
+    font-semibold
+    text-black/40 
+  }
+}
+
+
+@layer components{
+  .trow:hover{
+    @apply bg-trowColor
+  }
+}
+
+@layer components{
+  td{
+    @apply
+     p-[5px]
+    text-center
+    border-b-[1px] border-gray-300
+    text-base
+  }
+}
