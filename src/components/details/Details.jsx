@@ -22,38 +22,66 @@ function Details() {
     "Minimal miqdor",
     "Yetkazib beruvchi",
     "Holat"
-  ]
-
-  const ombor = [
-    "Tovar nomi",
-    "Artikul",
-    "Miqdori",
-    "Birlik",
-    "Kelish summasi",
-    "Qoldiq",
-    "Baholangan qiymati",
-    "Yetkazib berish",
   ];
-  const sotuv = [
-    "Tovar nomi",
-    "Artikul",
-    "Miqdori",
-    "Birlik",
-    "Sotilish summasi",
-    "Foiz%",
-    "Chegirma narxi",
-    "Nasiya",
-    "Naqd to'lov",
-    "Klient",
-    "Xodim",
+
+  const buyurtmalar = [
+    "To'langan",
+    "Qarz",
+    "Xaridor",
+    "Umumiy",
+    "Holat"
+  ];
+
+  const taminlovchi = [
+    "Ism",
+    "Telefon raqam",
+    "Qarz",
+    "Holat"
+  ];
+
+  const xizmatlar = [
+    "Xizmat turi",
+    "Narxi",
+    "Holat"
+  ];
+
+  const mijozlar = [
+    "Ism familiya",
+    "Telefon raqam",
+    "Qarz",
+    "Manzil",
+    "Holat"
+  ];
+
+  const avtomobillar = [
+    "Kod",
+    "Nomi",
+    "Brand",
+    "Rangi",
+    "Davlat raqami",
+    "Xaridor",
+    "Holat"
+  ];
+
+  const xodimlar = [
+    "Username",
+    "Ism",
+    "Familiya",
+    "Telefon raqam",
+    "Kasbi",
+    "Maosh",
+    "Ish vaqti",
+    "Holat"
   ]
+  
   const xarajatlar = [
-    "Turi",
-    "Xarajat summa",
-    "Sana"
+    "Xarajat turi",
+    "Narxi",
+    "Tavsif",
+    "Holat"
   ]
 
-  return {kirim, sotuv, ombor, xarajatlar, tovar };
+  return {kirim, tovar, buyurtmalar, taminlovchi, xizmatlar, mijozlar, avtomobillar, xodimlar, xarajatlar };
 }
 
 export default Details;

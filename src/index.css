@@ -13,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 } */
 
+@import url('https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Beginner:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -26,6 +29,7 @@
 input, button, textarea, select, i:focus{
   outline: none;
 }
+
 
 
 
@@ -84,7 +88,7 @@ input, button, textarea, select, i:focus{
   .table{
     @apply w-[100%]
     border-collapse
-    min-w-[120px]
+    h-full
   }
 }
 

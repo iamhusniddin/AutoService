@@ -28,19 +28,4 @@ function App() {
   );
 }
 
-// function MainApp(){
-//   return (
-//     <div className='flex bg-slate-200'>
-//       <Sidebar />
-//             <Routes>
-//                 <Route path='/' element={<Asosiy/>}/>
-//                 <Route path='/kirim-tovarlar' element={<KirimTovarlar/>}/>
-//                 <Route path='/ombor-bolimi' element={<Ombor/>}/>
-//                 <Route path='/sotuv-bolimi' element={<Sotuv />}/>
-//                 <Route path='/xarajatlar-bolimi' element={<Xarajatlar />}/>
-//                 <Route path='/hisobot-bolimi' element={<Hisobot/> }/>
-//             </Routes>
-//         </div>
-//   )
-// }
 export default App;

@@ -19,8 +19,9 @@ function Sidebar() {
         <div className="flex flex-col justify-between h-full bg-white/100 p-[40px] ">
         <div className="flex flex-col gap-[20px]">
           {/* logo section */}
-          <div className="">
-            <img className="w-[140px]" src={logo} alt="" />
+          <div className="flex flex-col relative items-center">
+            <img className="max-w-[140px]" src={logo} alt="" />
+            <p className="font-cursive2 absolute top-5  ml-1 left-14 text-sm text-blue-500">автосервис</p>
           </div>
 
          
@@ -43,13 +44,13 @@ function Sidebar() {
               <li className=" font-medium text-secondary">
                 <NavLink
                   className="flex items-center gap-[8px]"
-                  to="/kirim-tovarlar"
+                  to="/импортные товары"
                 >
                   — Kirimlar
                 </NavLink>
               </li>
               <li className=" font-medium text-secondary">
-                <NavLink className="flex items-center gap-[8px]" to="/tovarlar">
+                <NavLink className="flex items-center gap-[8px]" to="/товары">
                   — Tovarlar
                 </NavLink>
               </li>
@@ -64,7 +65,7 @@ function Sidebar() {
               <li className=" font-medium text-secondary">
                 <NavLink
                   className="flex items-center gap-[8px]"
-                  to="/buyurtmalar"
+                  to="/заказы"
                 >
                   — Buyurtmalar
                 </NavLink>
@@ -80,33 +81,41 @@ function Sidebar() {
               <li className=" font-medium text-secondary">
                 <NavLink
                   className="flex items-center gap-[8px]"
-                  to="/xizmatlar"
+                  to="/поставщик"
+                >
+                  — Ta'minlovchi
+                </NavLink>
+              </li>
+              <li className=" font-medium text-secondary">
+                <NavLink
+                  className="flex items-center gap-[8px]"
+                  to="/услуги"
                 >
                   — Xizmatlar
                 </NavLink>
               </li>
               <li className=" font-medium text-secondary">
-                <NavLink className="flex items-center gap-[8px]" to="/mijozlar">
+                <NavLink className="flex items-center gap-[8px]" to="/клиенты">
                   — Mijozlar
                 </NavLink>
               </li>
               <li className=" font-medium text-secondary">
                 <NavLink
                   className="flex items-center gap-[8px]"
-                  to="/avtomobillar"
+                  to="/автомобили"
                 >
                   — Avtomobillar
                 </NavLink>
               </li>
               <li className=" font-medium text-secondary">
-                <NavLink className="flex items-center gap-[8px]" to="/xodimlar">
+                <NavLink className="flex items-center gap-[8px]" to="/рабочий">
                   — Xodimlar
                 </NavLink>
               </li>
               <li className=" font-medium text-secondary">
                 <NavLink
                   className="flex items-center gap-[8px]"
-                  to="/xarajatlar"
+                  to="/расходы"
                 >
                   — Xarajatlar
                 </NavLink>

@@ -7,7 +7,6 @@ import { IoBagAddOutline } from "react-icons/io5";
 import { LuBookPlus } from "react-icons/lu";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { VscSaveAs } from "react-icons/vsc";
-import DataTable from "../components/dataTable/DataTable";
 import Details from "../components/details/Details";
 import Navbar from "../components/Navbar";
 

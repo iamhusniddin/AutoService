@@ -13,7 +13,8 @@ export default {
         trowColor:'#f1f1f1'
       },
       fontFamily: {
-        sans: ["Poppins", "sans-serif"],  
+        sans: ["Poppins", "sans-serif"], 
+        cursive2: ["Montserrat", "cursive2"], 
       },
     },
   },

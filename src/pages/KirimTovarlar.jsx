@@ -1,12 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { RiDeleteBinLine } from "react-icons/ri";
-import { FiDelete } from "react-icons/fi";
-import { VscSaveAs } from "react-icons/vsc";
-import { IoIosAddCircleOutline } from "react-icons/io";
 import Navbar from "../components/Navbar";
-import DataTable from "../components/dataTable/DataTable";
 import Details from "../components/details/Details";
-import { IoBagAddOutline } from "react-icons/io5";
 import { AiFillContainer } from "react-icons/ai";
 import useFetch from "../components/hooks/UseFetch";
 import { useState } from "react";
@@ -24,23 +19,77 @@ import { ImportProduct } from "../service/importProduct";
 import { MdOutlineEdit } from "react-icons/md";
 import { SlEye } from "react-icons/sl";
 import { IoMdAdd } from "react-icons/io";
-
+import DeleteModal from "../components/modals/DeleteModal";
+import InformationModal from "../components/modals/InformationModal";
+import { Provider } from "../service/provider";
+import { Product } from "../service/products";
 
 function KirimTovarlar() {
   const { data, error, loading } = useFetch(ImportProduct.getProduct);
+  const { data: provider } = useFetch(Provider.getProvider);
+  const { data: productName } = useFetch(Product.getProduct);
+
   const { kirim } = Details();
+  const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedProductName, setSelectedProductName] = useState(null);
+  const [currentItem, setCurrentItem] = useState(null);
+  const [openInfromModal, setOpenInformModal] = useState(false);
+  const [name, setName] = useState("Chexol");
 
+  const [formData, setFormData] = useState({});
 
-  if (loading) return <h1 className="text-xl m-auto"> Yuklanmoqda... </h1>;
+  useEffect(() => {
+    setProducts(data);
+  }, [data]);
   if (error) return <div>Xatolik: {error.message}</div>;
 
+  //mahsulot qo'shishModal
   const handleClick = () => {
     setOpenModal(true);
   };
 
-  const handleAdd = () => {
+  const handleChange = (e)=>{
+    // e.preventDefault();
+    const {name, value} = e.target
+    setFormData({...formData,[name] : value})
+  }
+  console.log(formData);
+  
+  //mahsulot qo'shish
+  const handleAdd = async () => {
+    try {
+      await ImportProduct.postProduct()
+    }
+    catch {
+      
+    }
     setOpenModal(false);
+  };
+
+  // deleteModal
+  const handleDelete = (item) => {
+    setSelectedProductName(item.name);
+    setCurrentItem(item.id);
+    setDeleteModal(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await ImportProduct.deleteProduct(currentItem);
+      setProducts(products?.filter((product) => product.id !== currentItem));
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      setDeleteModal(false);
+    }
+  };
+
+  // informModal
+  const handleInform = (item) => {
+    setCurrentItem(item);
+    setOpenInformModal(true);
   };
 
   return (
@@ -96,27 +145,42 @@ function KirimTovarlar() {
                 <FormControl className="flex flex-col gap-3">
                   <FormLabel htmlFor="nomi">
                     Tovar nomi
-                    <Input required type="text" id="nomi" />
+                    <Select onChange={handleChange}>
+                    <option></option>
+                      {productName?.map((item, index) => (
+                        
+                        <option key={index}>{item?.name}</option>
+                      ))}
+                    </Select>
                   </FormLabel>
 
-                  <FormLabel htmlFor="miqdor">
+                  <FormLabel  htmlFor="miqdor">
                     Miqdori
-                    <Input required type="number" id="miqdor" />
+                    <Input onChange={handleChange} required type="number" id="miqdor" />
+                  </FormLabel>
+
+                  <FormLabel htmlFor="summasi">
+                    Kelish summasi
+                    <Input onChange={handleChange} required type="number" id="summasi" />
                   </FormLabel>
 
                   <FormLabel htmlFor="qarz">
                     Qarz
-                    <Input required type="number" id="qarz" />
+                    <Input onChange={handleChange} required type="number" id="qarz" />
                   </FormLabel>
 
                   <FormLabel htmlFor="yetkazib beruvchi">
                     Yetkazib beruvchi
-                    <Input required type="text" id="yetkazib beruvch" />
+                    <Select onChange={handleChange} className="w-full" name="" id="">
+                      {provider?.map((item, index) => (
+                        <option key={index}>{item?.name}</option>
+                      ))}
+                    </Select>
                   </FormLabel>
 
                   <FormLabel htmlFor="umumiy">
                     Umumiy
-                    <Input required type="number" id="umumiy" />
+                    <Input onChange={handleChange} required type="number" id="umumiy" />
                   </FormLabel>
 
                   <Button
@@ -134,15 +198,14 @@ function KirimTovarlar() {
             )}
           </form>
 
-          
-           <div className="overflow-x-auto ">
-           <table className="table overflow-x-auto">
+          <div className="overflow-x-auto ">
+            <table className="table overflow-x-auto">
               <thead className="thead ">
                 <tr className="">
                   <th>№</th>
-                  {kirim.map((name) => {
+                  {kirim.map((name, index) => {
                     return (
-                      <th className="th" key={name.name}>
+                      <th className="th" key={index}>
                         {name}
                       </th>
                     );
@@ -151,29 +214,115 @@ function KirimTovarlar() {
               </thead>
 
               <tbody className="tbody">
-                {
-                  data && data?.map((item)=>(
-                    <tr className="trow" key={item.id}>
-                      <td className="td"> {item.branch}</td>
-                      <td className="td"> {item.product.name}</td> 
-                      <td className="td"> {item.amount}</td>
-                      <td className="td"> {item.import_price}</td>
-                      <td className="td"> {item.debt}</td>
-                      <td className="td"> {item.provider.name}</td>
-                      <td className="td"> {item.total}</td>
-                      <td className="td res"> <button type="button" className="text-lg text-yellow-500"><MdOutlineEdit /></button>
-                          <button type="button"><RiDeleteBinLine   className="text-lg mx-2 text-red-600"/></button>
-                          <button  type="button" className="text-lg  text-blue-700"><SlEye /></button>
-                      </td>
-                    </tr>
-
-                  )
-                  )
-                }
+                {loading ? (
+                  <tr>
+                    <td className="text-lg border-0">Yuklanmoqda...</td>
+                  </tr>
+                ) : (
+                  <>
+                    {products?.map((item, index) => (
+                      <tr className="trow" key={item.id}>
+                        <td className="td"> {index + 1}</td>
+                        <td className="td"> {item?.product?.name}</td>
+                        <td className="td"> {item?.amount}</td>
+                        <td className="td"> {item?.import_price}</td>
+                        <td className="td"> {item?.debt}</td>
+                        <td className="td"> {item?.provider?.name}</td>
+                        <td className="td"> {item?.total}</td>
+                        <td className="td">
+                          {" "}
+                          <button
+                            type="button"
+                            className="text-lg text-yellow-500"
+                          >
+                            <MdOutlineEdit />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(item)}
+                            type="button"
+                          >
+                            <RiDeleteBinLine className="text-lg mx-2 text-red-600" />
+                          </button>
+                          {deleteModal && (
+                            <DeleteModal
+                              selectedProductName={selectedProductName}
+                              handleDelete={handleDelete}
+                              setDeleteModal={setDeleteModal}
+                              handleDeleteConfirm={handleDeleteConfirm}
+                            />
+                          )}
+                          <button
+                            onClick={() => handleInform(item)}
+                            type="button"
+                            className="text-lg  text-blue-700"
+                          >
+                            <SlEye />
+                          </button>
+                          {openInfromModal && (
+                            <InformationModal
+                              setOpenInformModal={setOpenInformModal}
+                            >
+                              <div className="bg-blue-600 p-2 w-full mb-5">
+                                <h1 className="text-2xl font-semibold text-white">
+                                  Kirim tavfsilotlari
+                                </h1>
+                              </div>
+                              <div className="flex flex-col gap-1">
+                                <h2 className="text-lg font-semibold ">
+                                  Mahsulot nomi:{" "}
+                                  <span className="text-base font-normal">
+                                    {currentItem?.product?.name}
+                                  </span>
+                                </h2>
+                                <h2 className="text-lg font-semibold ">
+                                  Miqdori:{" "}
+                                  <span className="text-base font-normal">
+                                    {currentItem?.amount}
+                                  </span>
+                                </h2>
+                                <h2 className="text-lg font-semibold ">
+                                  Import narxi:{" "}
+                                  <span className="text-base font-normal">
+                                    {currentItem?.import_price}sum
+                                  </span>
+                                </h2>
+                                <h2 className="text-lg font-semibold ">
+                                  Qarz:{" "}
+                                  <span className="text-base font-normal">
+                                    {currentItem?.debt} sum
+                                  </span>
+                                </h2>
+                                <h2 className="text-lg font-semibold ">
+                                  Ta'minotchi:{" "}
+                                  <span className="text-base font-normal">
+                                    {currentItem?.provider?.name}
+                                  </span>
+                                </h2>
+                                <h2 className="text-lg font-semibold ">
+                                  Sana:{" "}
+                                  <span className="text-base font-normal">
+                                    {new Date(
+                                      currentItem.created_at
+                                    ).toLocaleDateString("en-GB")}
+                                  </span>
+                                </h2>
+                                <h2 className="text-lg font-semibold ">
+                                  Umumiy:{" "}
+                                  <span className="text-base font-normal">
+                                    {currentItem?.total} sum
+                                  </span>
+                                </h2>
+                              </div>
+                            </InformationModal>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </>
+                )}
               </tbody>
             </table>
-           </div>
-          
+          </div>
         </section>
         <div className="self-end flex items-center">
           <Button

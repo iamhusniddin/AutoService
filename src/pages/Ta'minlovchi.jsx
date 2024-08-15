@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AiFillContainer } from "react-icons/ai";
 import Navbar from "../components/Navbar";
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-} from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { IoMdAdd } from "react-icons/io";
 import Details from "../components/details/Details";
 import useFetch from "../components/hooks/UseFetch";
@@ -15,22 +9,19 @@ import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
 import DeleteModal from "../components/modals/DeleteModal";
 import { SlEye } from "react-icons/sl";
-import CustomersModal from "../components/modals/CustomersModal";
-import { Customers } from "../service/customers";
+import { Provider } from "../service/provider";
+import ProviderModal from "../components/modals/ProviderModal";
 import InformationModal from "../components/modals/InformationModal";
 
-function Mijozlar() {
-  const { mijozlar } = Details();
-  const { data, loading, error } = useFetch(Customers.getProduct);
+function Taminlovchi() {
+  const { taminlovchi } = Details();
+  const { data, loading, error } = useFetch(Provider.getProvider);
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedProductName, setSelectedProductName] = useState(null);
   const [currentItem, setCurrentItem] = useState(null);
   const [products, setProducts] = useState([]);
-  const [customerModal, setCustomerModal] = useState(false);
+  const [providerModal, setProviderModal] = useState(false);
   const [openInfromModal, setOpenInformModal] = useState(false);
-  
-  
-  
 
   useEffect(() => {
     setProducts(data);
@@ -38,14 +29,15 @@ function Mijozlar() {
 
   if (error) return <div>Xatolik: {error.message}</div>;
 
-  const handleAddService = () => {
-    setCustomerModal(true);
+
+  //AddProviderModal
+  const handleAddProvider = () => {
+    setProviderModal(true);
   };
 
   const handleAdd = () => {
-    setCustomerModal(false);
+    setProviderModal(false);
   };
-
 
   //deleteModal
   const handleDelete = (item) => {
@@ -54,15 +46,9 @@ function Mijozlar() {
     setDeleteModal(true);
   };
 
-  // informModal
-  const handleInform = (item) => {
-    setCurrentItem(item);
-    setOpenInformModal(true)
-  };
-
   const handleDeleteConfirm = async () => {
     try {
-      await Customers.deleteProduct(currentItem);
+      await Provider.deleteProvider(currentItem);
       setProducts(products?.filter((product) => product.id !== currentItem));
     } catch (error) {
       throw new Error(error);
@@ -71,17 +57,21 @@ function Mijozlar() {
     }
   };
 
- 
+   // informModal
+  const handleInform = (item) => {
+  setCurrentItem(item);
+  setOpenInformModal(true)
+};
 
   return (
     <div className="w-[100%]">
       <main className="h-screen flex flex-col justify-between gap-7 p-[30px]">
-        <Navbar title="Mijozlar" name="Руслан" adminType="Админ" />
+        <Navbar title="Ta'minlovchi" name="Руслан" adminType="Админ" />
 
         <section className="main-section">
           <form className=" flex flex-col lg:flex-row justify-between items-center p-[15px] mb-4">
-            <div>
-            <div className="relative w-full sm:w-auto">
+           <div>
+           <div className="relative w-full sm:w-auto">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
                   className="w-4 h-4 text-gray-500"
@@ -106,49 +96,41 @@ function Mijozlar() {
                 required
               />
             </div>
-            </div>
+           </div>
 
             <button
-              className="primary-btn flex items-center gap-2 mt-4 lg:mt-0 lg:self-end w-[160px] sm:w-auto hover:bg-slate-400 hover:text-white"
-              type="button"
-              onClick={handleAddService}
-            >
-              <IoMdAdd className="text-xl" /> Mijoz qo'shish
-            </button>
-            {customerModal && (
-              <CustomersModal
-                // provider={serviceModal}
-                setCustomerModal={setCustomerModal}
+                className="primary-btn flex items-center gap-2 mt-4 lg:mt-0 lg:self-end lg:w-auto hover:bg-slate-400 hover:text-white"
+                type="button"
+                onClick={handleAddProvider}
               >
-                <FormControl className="flex flex-col gap-3">
-                  <FormLabel>Mijoz qo'shish</FormLabel>
-                  <Input required type="text" placeholder="Ism" />
+                <IoMdAdd className="text-xl" /> Provider qo'shish
+              </button>
+              {providerModal && (
+                <ProviderModal
+                  provider={providerModal}
+                  setProviderModal={setProviderModal}
+                >
+                  <FormControl className="flex flex-col gap-3">
+                    <FormLabel>Yangi provider qo'shish</FormLabel>
+                    <Input required type="text" placeholder="Ismi*" />
 
-                  <Input required type="text" placeholder="Familiya" />
+                    <Input required type="number" placeholder="Telefon raqam" />
 
-                  <Input required type="number" placeholder="Telefon raqam" />
+                    <Input required type="number" placeholder="Qarz*" />
 
-                  <Input type="text" placeholder="Passport seriya harfi" />
-
-                  <Input type="number" placeholder="Passport seriya raqami" />
-
-                  <Input required type="address" placeholder="Manzil" />
-
-                  <Input required type="number" placeholder="Qarz" />
-
-                  <Button
-                    onClick={handleAdd}
-                    className="self-end flex items-center gap-2"
-                    width={180}
-                    colorScheme="gray"
-                  >
-                    {" "}
-                    <AiFillContainer className="text-xl" />
-                    Jadvalni to'ldirish
-                  </Button>
-                </FormControl>
-              </CustomersModal>
-            )}
+                    <Button
+                      onClick={handleAdd}
+                      className="self-end flex items-center gap-2"
+                      width={180}
+                      colorScheme="gray"
+                    >
+                      {" "}
+                      <AiFillContainer className="text-xl" />
+                      Jadvalni to'ldirish
+                    </Button>
+                  </FormControl>
+                </ProviderModal>
+              )}
           </form>
 
           <div className="overflow-x-auto">
@@ -156,7 +138,7 @@ function Mijozlar() {
               <thead className="thead ">
                 <tr className="">
                   <th>№</th>
-                  {mijozlar.map((name, index) => {
+                  {taminlovchi.map((name, index) => {
                     return (
                       <th className="th" key={index}>
                         {name}
@@ -176,13 +158,9 @@ function Mijozlar() {
                     {products?.map((item, index) => (
                       <tr className="trow" key={item.id}>
                         <td className="td"> {index + 1}</td>
-                        <td className="td">
-                          {" "}
-                          {item?.first_name + " " + item?.last_name}
-                        </td>
-                        <td className="td"> {item?.phone_number}</td>
-                        <td className="td">{item?.debt}</td>
-                        <td className="td">{item?.address}</td>
+                        <td className="td"> {item.name}</td>
+                        <td className="td"> {item.phone_number}</td>
+                        <td className="td"> {item.debt}</td>
                         <td className="td">
                           {" "}
                           <button
@@ -214,18 +192,14 @@ function Mijozlar() {
                           </button>
                           {openInfromModal && (
                             <InformationModal  setOpenInformModal={setOpenInformModal}>
-                              <div className="bg-blue-600 p-2 w-full mb-3">
-                               <h1 className="text-2xl font-semibold text-white">Mijoz tavfsilotlari</h1>
+                              <div className="bg-blue-600 p-2 w-full mb-5">
+                               <h1 className="text-2xl font-semibold text-white">Tovar tavfsilotlari</h1>
                               </div>
-                              <h1 className="text-2xl font-semibold mb-2">{currentItem?.first_name + " " + currentItem?.last_name}</h1>
-                              <hr className="mb-3"/>
                               <div className="flex flex-col gap-1">
+                                <h2 className="text-lg font-semibold ">Ism: <span className="text-base font-normal">{currentItem?.name}</span></h2>
                                 <h2 className="text-lg font-semibold ">Telefon raqam: <span className="text-base font-normal">{currentItem?.phone_number}</span></h2>
-                                <h2 className="text-lg font-semibold ">Qo'shimcha raqam: <span className="text-base font-normal">{currentItem?.phone_number_extra}</span></h2>
-                                <h2 className="text-lg font-semibold ">Passport seriyasi: <span className="text-base font-normal">{currentItem?.passport_serial_letters}</span></h2>
-                                <h2 className="text-lg font-semibold ">Seriya raqami: <span className="text-base font-normal">{currentItem?.passport_serial_numbers}</span></h2>
-                                <h2 className="text-lg font-semibold ">Manzil: <span className="text-base font-normal">{currentItem?.address}</span></h2>
-                                <h2 className="text-lg font-semibold ">Qarz: <span className="text-base font-normal">{currentItem?.debt}</span></h2>
+                                <h2 className="text-lg font-semibold ">Qarz: <span className="text-base font-normal">{currentItem?.debt} sum</span></h2>
+                                <h2 className="text-lg font-semibold ">Sana: <span className="text-base font-normal">{new Date(currentItem.created_at).toLocaleDateString('en-GB')}</span></h2>
                               </div>
                             </InformationModal>
                           )
@@ -244,4 +218,4 @@ function Mijozlar() {
   );
 }
 
-export default Mijozlar;
+export default Taminlovchi;

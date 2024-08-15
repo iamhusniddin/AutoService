@@ -1,18 +1,18 @@
-import React from "react";
+import React from 'react'
 
-function ProviderModal({ children, setProviderModal }) {
+function StaffModal({children, setStaffModal}) {
   const handleCloseModal = (e) => {
     if (e.target.className.includes("overlay")) {
-        setProviderModal(false);
+        setStaffModal(false);
     }
   };
   const closeModal = () => {
-    setProviderModal(false);
+    setStaffModal(false);
   };
   return (
     <div
       onClick={handleCloseModal}
-      className="absolute top-0 z-100 left-0 w-full h-screen p-2 sm:p-0 overlay cursor-context-menu flex justify-center items-center bg-black/40"
+      className="absolute top-0 z-100 left-0 w-full p-2 sm:p-0 h-screen overlay cursor-context-menu flex justify-center items-center bg-black/10"
     >
       <div className="relative rounded-lg shadow p-3 w-full max-w-[500px] bg-white">
         <button
@@ -37,10 +37,10 @@ function ProviderModal({ children, setProviderModal }) {
           </svg>
         </button>
 
-        <div className="p-4 md:p-5 text-center mt-2">{children}</div>
+        <div className="p-4 md:p-5 text-center">{children}</div>
       </div>
     </div>
-  );
+  )
 }
 
-export default ProviderModal;
+export default StaffModal

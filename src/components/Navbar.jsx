@@ -11,10 +11,10 @@ function Navbar({ title, name, adminType }) {
   return (
     <div className="w-[100%] flex justify-between items-center">
       
-      <div className="text-3xl flex items-center gap-2">
+      <div className=" flex items-center gap-2">
         <button onClick={toggleSidebar} className="text-2xl mt-[2px]"><FaBars /></button>
 
-        {title}
+        <p className="text-xl sm:text-3xl">{title}</p>
         </div>
 
       <div className="flex items-center gap-[20px]">
