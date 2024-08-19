@@ -2,13 +2,13 @@ import React from "react";
 
 function Details() {
   const kirim = [
-    "Tovar nomi", 
-    "Miqdori",
-    "Kelish summasi",
-    "Qarz",
-    "Yetkazib beruvchi",
-    "Umumiy",
-    "Holat"
+    "Название продукта", 
+    "Количество",
+    "Сумма поступления",
+    "Долг",
+    "Поставщик",
+    "Общий",
+    "Статус"
   ];
 
   const tovar = [
@@ -21,13 +21,15 @@ function Details() {
     "Chegirma",
     "Minimal miqdor",
     "Yetkazib beruvchi",
+    "Umumiy",
     "Holat"
   ];
 
   const buyurtmalar = [
+    "Xaridor",
+    "ID",
     "To'langan",
     "Qarz",
-    "Xaridor",
     "Umumiy",
     "Holat"
   ];

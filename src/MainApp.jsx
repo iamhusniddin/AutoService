@@ -11,6 +11,8 @@ import Avtomobillar from './pages/Avtomobillar'
 import Xodimlar from './pages/Xodimlar'
 import Xarajatlar from './pages/Xarajatlar'
 import Taminlovchi from './pages/Ta\'minlovchi'
+import BuyurtmaTarixi from './pages/BuyurtmaTarixi'
+import BuyurtmaTavfsiloti from './pages/BuyurtmaTavfsiloti'
 
 function MainApp() {
   return (
@@ -18,15 +20,17 @@ function MainApp() {
       <Sidebar />
             <Routes>  
                 <Route path='/' element={<Asosiy/>}/>
-                <Route path='/импортные товары' element={<KirimTovarlar/>}/>
-                <Route path='/товары' element={<Tovarlar/>}/>
-                <Route path='/заказы' element={<Buyurtmalar />}/>
-                <Route path='/поставщик' element={<Taminlovchi />}/>
-                <Route path='/услуги' element={<Xizmatlar/> }/>
-                <Route path='/клиенты' element={<Mijozlar/> }/>
-                <Route path='/автомобили' element={<Avtomobillar/> }/>
-                <Route path='/рабочий' element={<Xodimlar/> }/>
-                <Route path='/расходы' element={<Xarajatlar/> }/>
+                <Route path='/buyurtma' element={<Buyurtmalar />}/>
+                <Route path='/buyurtmatarixi' element={<BuyurtmaTarixi />}/>
+                <Route path='/buyurtmatafsilotlari/:id' element={<BuyurtmaTavfsiloti />}/>
+                <Route path='/kirimtovarlar' element={<KirimTovarlar/>}/>
+                <Route path='/tovarlar' element={<Tovarlar/>}/>
+                <Route path='/taminotchi' element={<Taminlovchi />}/>
+                <Route path='/xizmatlar' element={<Xizmatlar/> }/>
+                <Route path='/mijozlar' element={<Mijozlar/> }/>
+                <Route path='/avtomobillar' element={<Avtomobillar/> }/>
+                <Route path='/xodimlar' element={<Xodimlar/> }/>
+                <Route path='/xarajatlar' element={<Xarajatlar/> }/>
             </Routes>
         </div>
   )

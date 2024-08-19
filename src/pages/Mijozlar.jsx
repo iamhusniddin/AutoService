@@ -18,8 +18,10 @@ import { SlEye } from "react-icons/sl";
 import CustomersModal from "../components/modals/CustomersModal";
 import { Customers } from "../service/customers";
 import InformationModal from "../components/modals/InformationModal";
+import { useSidebar } from "../context/SidebarContext";
 
 function Mijozlar() {
+  const { isOpen } = useSidebar();
   const { mijozlar } = Details();
   const { data, loading, error } = useFetch(Customers.getProduct);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -28,6 +30,7 @@ function Mijozlar() {
   const [products, setProducts] = useState([]);
   const [customerModal, setCustomerModal] = useState(false);
   const [openInfromModal, setOpenInformModal] = useState(false);
+  
   
   
   
@@ -74,7 +77,9 @@ function Mijozlar() {
  
 
   return (
-    <div className="w-[100%]">
+    <div className={`transition-all duration-300 ${
+      !isOpen ? "ml-[235px]" : "ml-0"
+    } w-full`}>
       <main className="h-screen flex flex-col justify-between gap-7 p-[30px]">
         <Navbar title="Mijozlar" name="Руслан" adminType="Админ" />
 

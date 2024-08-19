@@ -17,7 +17,7 @@ function InformationModal({ children, setOpenInformModal }) {
   return (
     <div
       onClick={handleCloseModal}
-      className="absolute top-0 z-100 left-0 w-full p-2 sm:p-0 h-screen overlay cursor-context-menu flex justify-center items-center bg-black/10"
+      className="absolute top-0 z-10 left-0 w-full p-2 sm:p-0 h-screen overlay cursor-context-menu flex justify-center items-center bg-black/10"
     >
       <div className="relative rounded-lg shadow max-w-auto w-[400px] pb-6 bg-white">
         <button

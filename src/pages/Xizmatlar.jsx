@@ -12,8 +12,10 @@ import { SlEye } from "react-icons/sl";
 import XizmatModal from "../components/modals/XizmatModal";
 import { Services } from "../service/services";
 import InformationModal from "../components/modals/InformationModal";
+import { useSidebar } from "../context/SidebarContext";
 
 function Xizmatlar() {
+  const { isOpen } = useSidebar();
   const { xizmatlar } = Details();
   const { data, loading, error } = useFetch(Services.getProduct);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -22,6 +24,9 @@ function Xizmatlar() {
   const [products, setProducts] = useState([]);
   const [serviceModal, setServiceModal] = useState(false);
   const [openInfromModal, setOpenInformModal] = useState(false);
+  const [xizmat, setXizmat] = useState('');
+  const [narx, setNarx] = useState('')
+  
   
 
   useEffect(() => {
@@ -35,6 +40,21 @@ function Xizmatlar() {
     setServiceModal(true);
   };
 
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    const event = {
+      xizmat,
+      narx
+    };
+    
+    console.log(event);
+    
+    // Call handleAdd or any other logic after form submission
+    handleAdd();
+  };
+  
   const handleAdd = () => {
     setServiceModal(false);
   };
@@ -64,12 +84,14 @@ function Xizmatlar() {
   };
 
   return (
-    <div className="w-[100%]">
+    <div  className={`transition-all duration-300 ${
+      !isOpen ? "ml-[235px]" : "ml-0"
+    } w-full`}>
       <main className="h-screen flex flex-col justify-between gap-7 p-[30px]">
         <Navbar title="Xizmatlar" name="Руслан" adminType="Админ" />
 
         <section className="main-section">
-          <form className=" flex flex-col lg:flex-row justify-between items-center p-[15px] mb-4">
+          <div className=" flex flex-col lg:flex-row justify-between items-center p-[15px] mb-4">
             <div className="w-[145px] sm:w-auto">
             <Select className="" name="" id="">
                 <option value="nomi">Nomi</option>
@@ -89,13 +111,14 @@ function Xizmatlar() {
                   // provider={serviceModal}
                   setServiceModal={setServiceModal}
                 >
-                  <FormControl className="flex flex-col gap-3">
-                    <FormLabel>Xizmat qo'shish</FormLabel>
-                    <Input required type="text" placeholder="Xizmat turi" />
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                    {/* <FormLabel>Xizmat qo'shish</FormLabel> */}
+                    <Input onChange={(e)=>setXizmat(e.target.value)} value={xizmat} required type="text" placeholder="Xizmat turi" />
 
-                    <Input required type="number" placeholder="Narxi*" />
+                    <Input onChange={(e)=>setNarx(e.target.value)} value={narx} required type="number" placeholder="Narxi*" />
 
                     <Button
+                    type="submit"
                       onClick={handleAdd}
                       className="self-end flex items-center gap-2"
                       width={180}
@@ -105,10 +128,10 @@ function Xizmatlar() {
                       <AiFillContainer className="text-xl" />
                       Jadvalni to'ldirish
                     </Button>
-                  </FormControl>
+                  </form>
                 </XizmatModal>
               )}
-          </form>
+          </div>
 
           <div className="overflow-x-auto">
             <table className="table overflow-x-auto">

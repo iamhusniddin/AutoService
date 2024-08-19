@@ -19,8 +19,10 @@ import DeleteModal from "../components/modals/DeleteModal";
 import ProviderModal from "../components/modals/ProviderModal";
 import { Expenses } from "../service/expenses";
 import InformationModal from "../components/modals/InformationModal";
+import { useSidebar } from "../context/SidebarContext";
 
 function Xarajatlar() {
+  const { isOpen } = useSidebar();
   const { xarajatlar } = Details();
   const { data, error, loading } = useFetch(Expenses.getProduct);
   const [products, setProducts] = useState([]);
@@ -91,8 +93,10 @@ function Xarajatlar() {
   
 
   return (
-    <div className="w-[100%] h-screen">
-      <main className="h-full flex flex-col justify-between gap-7 p-[30px] ">
+    <div className={`transition-all duration-300 ${
+      !isOpen ? "ml-[235px]" : "ml-0"
+    } w-full`}>
+      <main className="h-screen flex flex-col justify-between gap-7 p-[30px] ">
         <Navbar title="Xarajatlar" name="Руслан" adminType="Админ" />
 
         <section className="main-section">
@@ -126,7 +130,7 @@ function Xarajatlar() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button
+              {/* <button
                 className="primary-btn flex items-center gap-2 mt-4 lg:mt-0 lg:self-end lg:w-auto hover:bg-slate-400 hover:text-white"
                 type="button"
                 onClick={handleAddProvider}
@@ -158,13 +162,13 @@ function Xarajatlar() {
                     </Button>
                   </FormControl>
                 </ProviderModal>
-              )}
+              )} */}
               <button
                 className="primary-btn flex items-center gap-2 lg:mt-0 lg:self-end lg:w-auto sm:mt-4 hover:bg-slate-400 hover:text-white"
                 type="button"
                 onClick={handleClick}
               >
-                <IoMdAdd className="text-xl" /> Maxsulot qo'shish
+                <IoMdAdd className="text-xl" />Xarajat qo'shish
               </button>
               {openModal && (
                 <Modal openModal={openModal} setOpenModal={setOpenModal}>

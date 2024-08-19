@@ -12,7 +12,7 @@ function EditModal({children, setCustomerModal}) {
   return (
     <div
       onClick={handleCloseModal}
-      className="absolute top-0 z-100 left-0 w-full p-2 sm:p-0 h-screen overlay cursor-context-menu flex justify-center items-center bg-black/10"
+      className="absolute top-0 z-10 left-0 w-full p-2 sm:p-0 h-screen overlay cursor-context-menu flex justify-center items-center bg-black/10"
     >
       <div className="relative rounded-lg shadow p-3 w-full max-w-[500px] bg-white">
         <button

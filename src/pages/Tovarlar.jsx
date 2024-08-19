@@ -21,11 +21,14 @@ import ProviderModal from "../components/modals/ProviderModal";
 import EditModal from "../components/modals/EditModal";
 import InformationModal from "../components/modals/InformationModal";
 import { Provider } from "../service/provider";
+import { useSidebar } from "../context/SidebarContext";
 
 function Tovarlar() {
+  const { isOpen } = useSidebar();
   const { tovar } = Details();
   const { data, error, loading } = useFetch(Product.getProduct);
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [providerModal, setProviderModal] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -34,16 +37,86 @@ function Tovarlar() {
   const [currentItem, setCurrentItem] = useState(null);
   const [openInfromModal, setOpenInformModal] = useState(false);
   const { data: provider } = useFetch(Provider.getProvider);
+  const [tovars, setTovars] = useState("");
+  const [artikul, setArtikul] = useState("");
+  const [miqdor, setMiqdor] = useState("");
+  const [birlik, setBirlik] = useState("");
+  const [kelishSumma, setKelishSumma] = useState("");
+  const [SotishSumma, setSotishSumma] = useState("");
+  const [chegirma, setChegirma] = useState("");
+  const [minimal, setMinimal] = useState("");
+  const [yetkazuvchi, setYetkazuvchi] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortField, setSortField] = useState("nomi");
 
   useEffect(() => {
     setProducts(data);
+    setFilteredProducts(data);
   }, [data]);
+
+  //search
+  const handleSearchChange = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+    const filtered = products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(query) ||
+        product.code.toLowerCase().includes(query) || // Assuming 'artikul' is 'code'
+        product.unit.toLowerCase().includes(query) ||
+        product.import_price.toString().includes(query) || // Assuming 'artikul' is 'code'
+        product.export_price.toString().includes(query) ||
+        product.max_discount.toString().includes(query) || // Assuming 'artikul' is 'code'
+        product.min_amount.toString().includes(query) ||
+        product.provider.name.toLowerCase().includes(query)
+    );
+    setFilteredProducts(filtered);
+  };
+
+  //sort
+  const handleSortChange = (e) => {
+    const field = e.target.value;
+    setSortField(field);
+
+    const sortedProducts = [...filteredProducts].sort((a, b) => {
+      if (field === "nomi") {
+        return a.name.localeCompare(b.name);
+      } else if (field === "artikul") {
+        return a.code.localeCompare(b.code); // Assuming 'artikul' is 'code'
+      } else if (field === "miqdor") {
+        return a.min_amount - b.min_amount; // Assuming 'miqdor' is 'amount'
+      } else if (field === "chegrima") {
+        return a.max_discount - b.max_discount; // Assuming 'chegrima' is 'discount'
+      }
+      
+      return 0;
+    });
+
+    setFilteredProducts(sortedProducts);
+  };
 
   if (error) return <div>Xatolik: {error.message}</div>;
 
   //mahsulot qo'shishModal
   const handleClick = () => {
     setOpenModal(true);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(1);
+
+    const events = {
+      tovars: tovars,
+      artikul: artikul,
+      miqdor: miqdor,
+      birlik: birlik,
+      kelishSumma: kelishSumma,
+      SotishSumma: SotishSumma,
+      chegirma: chegirma,
+      minimal: minimal,
+      yetkazuvchi: yetkazuvchi,
+    };
+    console.log(events);
   };
 
   // addProviderModal
@@ -56,6 +129,7 @@ function Tovarlar() {
     setProviderModal(false);
   };
 
+  //editModal
   const handleEditClick = (id) => {
     setEditModal(true);
   };
@@ -84,10 +158,17 @@ function Tovarlar() {
     setOpenInformModal(true);
   };
 
+  const handleAddChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+  };
+
   return (
-    <div className="w-[100%] h-screen">
+    <div  className={`transition-all duration-300 ${
+      !isOpen ? "ml-[235px]" : "ml-0"
+    } w-full h-screen`}>
       <main className="h-full flex flex-col justify-between gap-7 p-[30px] ">
-        <Navbar title="Tovarlar" name="Руслан" adminType="Админ" />
+        <Navbar title="Товары" name="Руслан" adminType="Админ" />
 
         <section className="main-section">
           <form className=" flex flex-col lg:flex-row justify-between items-center p-[15px] mb-4">
@@ -112,13 +193,18 @@ function Tovarlar() {
                 </div>
                 <input
                   type="search"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
                   className="block w-40 sm:w-56 p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
                   placeholder="Search..."
-                  required
                 />
               </div>
               <div>
-                <Select className="w-24" name="" id="">
+                <Select
+                  className="w-24"
+                  onChange={handleSortChange}
+                  value={sortField}
+                >
                   <option value="nomi">Nomi</option>
                   <option value="artikul">Artikul</option>
                   <option value="miqdor">Miqdori</option>
@@ -127,252 +213,12 @@ function Tovarlar() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                className="primary-btn flex items-center gap-2 mt-4 lg:mt-0 lg:self-end lg:w-auto hover:bg-slate-400 hover:text-white"
-                type="button"
-                onClick={handleAddProvider}
-              >
-                <IoMdAdd className="text-xl m-auto" /> Provider qo'shish
-              </button>
-              {providerModal && (
-                <ProviderModal
-                  provider={providerModal}
-                  setProviderModal={setProviderModal}
-                >
-                  <FormControl className="flex flex-col gap-3">
-                    <FormLabel>Yangi provider qo'shish</FormLabel>
-                    <Input required type="text" placeholder="Ismi*" />
-
-                    <Input required type="number" placeholder="Telefon raqam" />
-
-                    <Input required type="number" placeholder="Qarz*" />
-
-                    <Button
-                      onClick={handleAdd}
-                      className="self-end flex items-center gap-2"
-                      width={180}
-                      colorScheme="gray"
-                    >
-                      {" "}
-                      <AiFillContainer className="text-xl" />
-                      Jadvalni to'ldirish
-                    </Button>
-                  </FormControl>
-                </ProviderModal>
-              )}
-              <button
-                className="primary-btn flex items-center gap-2 lg:mt-0 lg:self-end sm:mt-4 lg:w-auto hover:bg-slate-400 hover:text-white"
-                type="button"
-                onClick={handleClick}
-              >
-                <IoMdAdd className="text-xl" /> Maxsulot qo'shish
-              </button>
-              {openModal && (
-                <Modal openModal={openModal} setOpenModal={setOpenModal}>
-                  <FormControl className="flex flex-col gap-3">
-                    <FormLabel htmlFor="nomi">
-                      Tovar nomi
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="text"
-                        id="nomi"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="artikul">
-                      Artikul
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="artikul"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="miqdor">
-                      Miqdori
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="miqdor"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="birlik">
-                      Birlik
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="text"
-                        id="birlik"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="kelishsummasi">
-                      Kelish summasi
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="kelishsummasi"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="sotishsummasi">
-                      Sotish summasi
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="sotishsummasi"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="chegirma">
-                      Chegirma
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="chegirma"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="minimalmiqdor">
-                      Minimal miqdor
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="minimalmiqdor"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="yetkazib beruvchi">
-                      Yetkazib beruvchi
-                      <Select>
-                        <option value=""></option>
-                        {provider?.map((item, index) => (
-                          <option key={index}>{item?.name}</option>
-                        ))}
-                      </Select>
-                    </FormLabel>
-
-                    <Button
-                      onClick={handleAdd}
-                      className="self-end flex items-center gap-2"
-                      width={180}
-                      colorScheme="gray"
-                    >
-                      <AiFillContainer className="text-xl" />
-                      Jadvalni to'ldirish
-                    </Button>
-                  </FormControl>
-                </Modal>
-              )}
-            </div>
+           
           </form>
 
           <div className="overflow-x-auto">
-            <FormControl className="flex flex-col gap-3 mb-4 ml-2">
-              <div className="flex justify-around">
-                <Input
-                  width={165}
-                  placeholder="Tovarni kirgizing..."
-                  // onChange={handleAddChange}
-                  required
-                  type="text"
-                  id="nomi"
-                />
-
-                <Input
-                  width={165}
-                  placeholder="Artikulni kirgizing..."
-                  // onChange={handleAddChange}
-                  required
-                  type="number"
-                  id="artikul"
-                />
-
-                <Input
-                  width={165}
-                  placeholder="Miqdorni kirgizing..."
-                  // onChange={handleAddChange}
-                  required
-                  type="number"
-                  id="miqdor"
-                />
-
-                <Input
-                  width={165}
-                  placeholder="Birlikni kirgizing..."
-                  // onChange={handleAddChange}
-                  required
-                  type="text"
-                  id="birlik"
-                />
-
-                <Input
-                  width={165}
-                  placeholder="Kelish summasi..."
-                  // onChange={handleAddChange}
-                  required
-                  type="number"
-                  id="kelishsummasi"
-                />
-              </div>
-              
-              <div className="flex justify-around">
-                <Input
-                  width={165}
-                  placeholder="Sotish summasi..."
-                  // onChange={handleAddChange}
-                  required
-                  type="number"
-                  id="sotishsummasi"
-                />
-
-                <Input
-                  width={165}
-                  placeholder="Chegirma"
-                  // onChange={handleAddChange}
-                  required
-                  type="number"
-                  id="chegirma"
-                />
-
-                <Input
-                  width={165}
-                  placeholder="Minimal miqdor..."
-                  // onChange={handleAddChange}
-                  required
-                  type="number"
-                  id="minimalmiqdor"
-                />
-
-                <Select width={165} placeholder="Yetkazib beruvchi...">
-                 
-                  {provider?.map((item, index) => (
-                    <option key={index}>{item?.name}</option>
-                  ))}
-                </Select>
-
-                <Button
-                  onClick={handleAdd}
-                  className="self-end flex items-center gap-2"
-                  width={165}
-                  colorScheme="gray"
-                >
-                  <AiFillContainer className="text-xl" />
-                  Jadvalni to'ldirish
-                </Button>
-              </div>
-            </FormControl>
             <table className="table overflow-x-auto">
-              <thead className="thead ">
+              <thead className="thead">
                 <tr className="">
                   <th>№</th>
                   {tovar.map((name, index) => {
@@ -392,7 +238,179 @@ function Tovarlar() {
                   </tr>
                 ) : (
                   <>
-                    {products?.map((item, index) => (
+                    {/* <tr className="trow">
+                      <td className="td text-secondary">N!</td>
+                      <td className="td text-lg">
+                        <Input
+                          border={0}
+                          width={100}
+                          height={30}
+                          placeholder="_______________"
+                          onChange={(e) => setTovars(e.target.value)}
+                          value={tovars}
+                          required
+                          type="text"
+                          id="nomi"
+                          focusBorderColor="transparent" // Removes border on focus
+                          _hover={{ border: "none" }}
+                        />
+                      </td>
+                      <td className="td ">
+                        {" "}
+                        <Input
+                          border={0}
+                          width={100}
+                          height={30}
+                          placeholder="_______________"
+                          onChange={(e) => setArtikul(e.target.value)}
+                          value={artikul}
+                          required
+                          type="number"
+                          id="nomi"
+                          focusBorderColor="transparent" // Removes border on focus
+                          _hover={{ border: "none" }} // Removes border on hover
+                        />
+                      </td>
+                      <td className="td text-lg">
+                        <Input
+                          border={0}
+                          width={50}
+                          height={30}
+                          placeholder="_______________"
+                          onChange={(e) => setMiqdor(e.target.value)}
+                          value={miqdor}
+                          required
+                          type="number"
+                          id="nomi"
+                          focusBorderColor="transparent" // Removes border on focus
+                          _hover={{ border: "none" }} // Removes border on hover
+                        />
+                      </td>
+                      <td className="td text-lg">
+                        <Input
+                          border={0}
+                          width={70}
+                          height={30}
+                          placeholder="_______________"
+                          onChange={(e) => setBirlik(e.target.value)}
+                          value={birlik}
+                          required
+                          type="text"
+                          id="nomi"
+                          focusBorderColor="transparent" // Removes border on focus
+                          _hover={{ border: "none" }} // Removes border on hover
+                        />
+                      </td>
+                      <td className="td text-lg">
+                        <Input
+                          border={0}
+                          width={100}
+                          height={30}
+                          padding={0}
+                          placeholder="_______________"
+                          onChange={(e) => setKelishSumma(e.target.value)}
+                          value={kelishSumma}
+                          required
+                          type="number"
+                          id="nomi"
+                          focusBorderColor="transparent" // Removes border on focus
+                          _hover={{ border: "none" }} // Removes border on hover
+                        />
+                      </td>
+                      <td className="td text-lg">
+                        <Input
+                          border={0}
+                          width={100}
+                          height={30}
+                          padding={0}
+                          placeholder="_______________"
+                          onChange={(e) => setSotishSumma(e.target.value)}
+                          value={SotishSumma}
+                          required
+                          type="number"
+                          id="nomi"
+                          focusBorderColor="transparent" // Removes border on focus
+                          _hover={{ border: "none" }} // Removes border on hover
+                        />
+                      </td>
+                      <td className="td text-lg">
+                        <Input
+                          border={0}
+                          width={100}
+                          height={30}
+                          padding={0}
+                          placeholder="_______________"
+                          onChange={(e) => setChegirma(e.target.value)}
+                          value={chegirma}
+                          required
+                          type="number"
+                          id="nomi"
+                          focusBorderColor="transparent" // Removes border on focus
+                          _hover={{ border: "none" }} // Removes border on hover
+                        />
+                      </td>
+                      <td className="td text-lg">
+                        <Input
+                          border={0}
+                          width={100}
+                          padding={0}
+                          height={30}
+                          placeholder="_______________"
+                          onChange={(e) => setMinimal(e.target.value)}
+                          value={minimal}
+                          required
+                          type="number"
+                          id="nomi"
+                          focusBorderColor="transparent" // Removes border on focus
+                          _hover={{ border: "none" }} // Removes border on hover
+                        />
+                      </td>
+                      <td className="td text-lg">
+                        <Input
+                          border={0}
+                          width={100}
+                          height={30}
+                          placeholder="_______________"
+                          onChange={(e) => setYetkazuvchi(e.target.value)}
+                          value={yetkazuvchi}
+                          required
+                          type="text"
+                          id="nomi"
+                          focusBorderColor="transparent" // Removes border on focus
+                          _hover={{ border: "none" }} // Removes border on hover
+                        />
+                      </td>
+                      <td className="td text-lg">
+                        <Input
+                          border={0}
+                          width={100}
+                          padding={0}
+                          height={30}
+                          placeholder="_______________"
+                          onChange={(e) => setMinimal(e.target.value)}
+                          value={minimal}
+                          required
+                          type="number"
+                          id="nomi"
+                          focusBorderColor="transparent" // Removes border on focus
+                          _hover={{ border: "none" }} // Removes border on hover
+                        />
+                      </td>
+                      <td className="td p-0">
+                        {" "}
+                        <Button
+                          className=""
+                          width={105}
+                          height={38}
+                          colorScheme="blue"
+                          onClick={handleSubmit}
+                        >
+                          Gotova
+                        </Button>
+                      </td>
+                    </tr> */}
+
+                    {filteredProducts?.map((item, index) => (
                       <tr className="trow" key={item.id}>
                         <td className="td"> {index + 1}</td>
                         <td className="td"> {item?.name}</td>
@@ -401,19 +419,119 @@ function Tovarlar() {
                         <td className="td"> {item?.unit}</td>
                         <td className="td"> {item?.import_price}</td>
                         <td className="td"> {item?.export_price}</td>
-                        <td className="td"> {item?.max_discount}</td>
+                        <td className="td"> {item?.max_discount}%</td>
                         <td className="td"> {item?.min_amount}</td>
                         <td className="td"> {item?.provider?.name}</td>
+                        <td className="td"> {item?.total_benefit}</td>
                         <td className="td">
-                          <button
-                            onClick={handleEditClick}
+                          {/* <button
+                            onClick={() => handleEditClick(item.id)}
                             type="button"
                             className="text-lg text-yellow-500"
                           >
                             <MdOutlineEdit />
                           </button>
                           {editModal && (
-                            <EditModal setEditModal={setEditModal}></EditModal>
+                            <EditModal setEditModal={setEditModal}>
+                              <FormControl className="flex flex-col gap-3">
+                                <FormLabel htmlFor="nomi">
+                                  Tovar nomi
+                                  <Input
+                                    onChange={handleAddChange}
+                                    required
+                                    type="text"
+                                    id="nomi"
+                                  />
+                                </FormLabel>
+
+                                <FormLabel htmlFor="artikul">
+                                  Artikul
+                                  <Input
+                                    onChange={handleAddChange}
+                                    required
+                                    type="number"
+                                    id="artikul"
+                                  />
+                                </FormLabel>
+
+                                <FormLabel htmlFor="miqdor">
+                                  Miqdori
+                                  <Input
+                                    onChange={handleAddChange}
+                                    required
+                                    type="number"
+                                    id="miqdor"
+                                  />
+                                </FormLabel>
+
+                                <FormLabel htmlFor="birlik">
+                                  Birlik
+                                  <Input
+                                    onChange={handleAddChange}
+                                    required
+                                    type="text"
+                                    id="birlik"
+                                  />
+                                </FormLabel>
+
+                                <FormLabel htmlFor="kelishsummasi">
+                                  Kelish summasi
+                                  <Input
+                                    onChange={handleAddChange}
+                                    required
+                                    type="number"
+                                    id="kelishsummasi"
+                                  />
+                                </FormLabel>
+
+                                <FormLabel htmlFor="sotishsummasi">
+                                  Sotish summasi
+                                  <Input
+                                    onChange={handleAddChange}
+                                    required
+                                    type="number"
+                                    id="sotishsummasi"
+                                  />
+                                </FormLabel>
+
+                                <FormLabel htmlFor="chegirma">
+                                  Chegirma
+                                  <Input
+                                    onChange={handleAddChange}
+                                    required
+                                    type="number"
+                                    id="chegirma"
+                                  />
+                                </FormLabel>
+
+                                <FormLabel htmlFor="minimalmiqdor">
+                                  Minimal miqdor
+                                  <Input
+                                    onChange={handleAddChange}
+                                    required
+                                    type="number"
+                                    id="minimalmiqdor"
+                                  />
+                                </FormLabel>
+                                <FormLabel htmlFor="yetkazuvchi">
+                                  Yetkazib beruvchi
+                                  <Input
+                                    onChange={handleAddChange}
+                                    required
+                                    type="text"
+                                    id="yetkazuvchi"
+                                  />
+                                </FormLabel>
+                                <Button
+                                  className="self-end flex items-center gap-2"
+                                  width={180}
+                                  colorScheme="gray"
+                                >
+                                  <AiFillContainer className="text-xl" />
+                                  Jadvalni to'ldirish
+                                </Button>
+                              </FormControl>
+                            </EditModal>
                           )}
                           <button
                             onClick={() => handleDelete(item)}
@@ -428,7 +546,7 @@ function Tovarlar() {
                               setDeleteModal={setDeleteModal}
                               handleDeleteConfirm={handleDeleteConfirm}
                             />
-                          )}
+                          )} */}
                           <button
                             onClick={() => handleInform(item)}
                             type="button"
@@ -440,75 +558,7 @@ function Tovarlar() {
                             <InformationModal
                               setOpenInformModal={setOpenInformModal}
                             >
-                              <div className="bg-blue-600 p-2 w-full mb-5">
-                                <h1 className="text-2xl font-semibold text-white">
-                                  Tovar tavfsilotlari
-                                </h1>
-                              </div>
-                              <div className="flex flex-col gap-1">
-                                <h2 className="text-lg font-semibold ">
-                                  Mahsulot nomi:{" "}
-                                  <span className="text-base font-normal">
-                                    {currentItem?.name}
-                                  </span>
-                                </h2>
-                                <h2 className="text-lg font-semibold ">
-                                  Artikul:{" "}
-                                  <span className="text-base font-normal">
-                                    {currentItem?.code}
-                                  </span>
-                                </h2>
-                                <h2 className="text-lg font-semibold ">
-                                  Miqdori:{" "}
-                                  <span className="text-base font-normal">
-                                    {currentItem?.amount}
-                                  </span>
-                                </h2>
-                                <h2 className="text-lg font-semibold ">
-                                  Birlik:{" "}
-                                  <span className="text-base font-normal">
-                                    {currentItem?.unit}
-                                  </span>
-                                </h2>
-                                <h2 className="text-lg font-semibold ">
-                                  Kelish summasi:{" "}
-                                  <span className="text-base font-normal">
-                                    {currentItem?.import_price} sum
-                                  </span>
-                                </h2>
-                                <h2 className="text-lg font-semibold ">
-                                  Sotish summasi:{" "}
-                                  <span className="text-base font-normal">
-                                    {currentItem?.export_price} sum
-                                  </span>
-                                </h2>
-                                <h2 className="text-lg font-semibold ">
-                                  Chegirma:{" "}
-                                  <span className="text-base font-normal">
-                                    {currentItem?.max_discount} sum
-                                  </span>
-                                </h2>
-                                <h2 className="text-lg font-semibold ">
-                                  Minimal miqdor:{" "}
-                                  <span className="text-base font-normal">
-                                    {currentItem?.min_amount}
-                                  </span>
-                                </h2>
-                                <h2 className="text-lg font-semibold ">
-                                  Yetkazib beruvchi:{" "}
-                                  <span className="text-base font-normal">
-                                    {currentItem?.provider?.name}
-                                  </span>
-                                </h2>
-                                <h2 className="text-lg font-semibold ">
-                                  Sana:{" "}
-                                  <span className="text-base font-normal">
-                                    {new Date(
-                                      currentItem.created_at
-                                    ).toLocaleDateString("en-GB")}
-                                  </span>
-                                </h2>
-                              </div>
+                             
                             </InformationModal>
                           )}
                         </td>

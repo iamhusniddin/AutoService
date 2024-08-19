@@ -41,6 +41,7 @@ input, button, textarea, select, i:focus{
      rounded-xl
       bg-white
        p-[15px]
+      
   }
 }
 
@@ -122,7 +123,8 @@ input, button, textarea, select, i:focus{
     @apply
      p-[5px]
     text-center
-    border-b-[1px] border-gray-300
+
+    border-[1px] border-gray-300
     text-base
   }
 }

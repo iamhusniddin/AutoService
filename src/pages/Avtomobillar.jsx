@@ -18,8 +18,10 @@ import { SlEye } from "react-icons/sl";
 import CustomersModal from "../components/modals/CustomersModal";
 import { Cars } from "../service/cars";
 import InformationModal from "../components/modals/InformationModal";
+import { useSidebar } from "../context/SidebarContext";
 
 function Avtomobillar() {
+  const { isOpen } = useSidebar();
   const { avtomobillar } = Details();
   const { data, loading, error } = useFetch(Cars.getProduct);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -70,7 +72,7 @@ function Avtomobillar() {
   
 
   return (
-    <div className="w-[100%]">
+    <div className={`transition-all duration-300 ${!isOpen ? 'ml-[235px]' : 'ml-0'} w-full`}>
       <main className="h-screen flex flex-col justify-between gap-7 p-[30px]">
         <Navbar title="Avtomobillar" name="Руслан" adminType="Админ" />
 

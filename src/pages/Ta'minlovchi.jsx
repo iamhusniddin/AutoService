@@ -12,8 +12,10 @@ import { SlEye } from "react-icons/sl";
 import { Provider } from "../service/provider";
 import ProviderModal from "../components/modals/ProviderModal";
 import InformationModal from "../components/modals/InformationModal";
+import { useSidebar } from "../context/SidebarContext";
 
 function Taminlovchi() {
+  const { isOpen } = useSidebar();
   const { taminlovchi } = Details();
   const { data, loading, error } = useFetch(Provider.getProvider);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -28,7 +30,6 @@ function Taminlovchi() {
   }, [data]);
 
   if (error) return <div>Xatolik: {error.message}</div>;
-
 
   //AddProviderModal
   const handleAddProvider = () => {
@@ -57,80 +58,64 @@ function Taminlovchi() {
     }
   };
 
-   // informModal
+  // informModal
   const handleInform = (item) => {
-  setCurrentItem(item);
-  setOpenInformModal(true)
-};
+    setCurrentItem(item);
+    setOpenInformModal(true);
+  };
 
   return (
-    <div className="w-[100%]">
+    <div
+      className={`transition-all duration-300 ${
+        !isOpen ? "ml-[235px]" : "ml-0"
+      } w-full`}
+    >
       <main className="h-screen flex flex-col justify-between gap-7 p-[30px]">
-        <Navbar title="Ta'minlovchi" name="Руслан" adminType="Админ" />
+        <Navbar title="Поставщик" name="Руслан" adminType="Админ" />
 
         <section className="main-section">
           <form className=" flex flex-col lg:flex-row justify-between items-center p-[15px] mb-4">
-           <div>
-           <div className="relative w-full sm:w-auto">
-              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-500"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
+            <div>
+              <div className="relative w-full sm:w-auto">
+                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <svg
+                    className="w-4 h-4 text-gray-500"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  type="search"
+                  className="block w-40 sm:w-56 p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
+                  placeholder="Search..."
+                  required
+                />
               </div>
-              <input
-                type="search"
-                className="block w-40 sm:w-56 p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
-                placeholder="Search..."
-                required
-              />
             </div>
-           </div>
 
             <button
-                className="primary-btn flex items-center gap-2 mt-4 lg:mt-0 lg:self-end lg:w-auto hover:bg-slate-400 hover:text-white"
-                type="button"
-                onClick={handleAddProvider}
-              >
-                <IoMdAdd className="text-xl" /> Provider qo'shish
-              </button>
-              {providerModal && (
-                <ProviderModal
-                  provider={providerModal}
-                  setProviderModal={setProviderModal}
-                >
-                  <FormControl className="flex flex-col gap-3">
-                    <FormLabel>Yangi provider qo'shish</FormLabel>
-                    <Input required type="text" placeholder="Ismi*" />
-
-                    <Input required type="number" placeholder="Telefon raqam" />
-
-                    <Input required type="number" placeholder="Qarz*" />
-
-                    <Button
-                      onClick={handleAdd}
-                      className="self-end flex items-center gap-2"
-                      width={180}
-                      colorScheme="gray"
-                    >
-                      {" "}
-                      <AiFillContainer className="text-xl" />
-                      Jadvalni to'ldirish
-                    </Button>
-                  </FormControl>
-                </ProviderModal>
-              )}
+              className="primary-btn flex items-center gap-2 mt-4 lg:mt-0 lg:self-end lg:w-auto hover:bg-slate-400 hover:text-white"
+              type="button"
+              onClick={handleAddProvider}
+            >
+              <IoMdAdd className="text-xl" /> Добавить поставщика
+            </button>
+            {providerModal && (
+              <ProviderModal
+                provider={providerModal}
+                setProviderModal={setProviderModal}
+              ></ProviderModal>
+            )}
           </form>
 
           <div className="overflow-x-auto">
@@ -184,26 +169,51 @@ function Taminlovchi() {
                             />
                           )}
                           <button
-                          onClick={() => handleInform(item)}
+                            onClick={() => handleInform(item)}
                             type="button"
                             className="text-lg  text-blue-700"
                           >
                             <SlEye />
                           </button>
                           {openInfromModal && (
-                            <InformationModal  setOpenInformModal={setOpenInformModal}>
+                            <InformationModal
+                              setOpenInformModal={setOpenInformModal}
+                            >
                               <div className="bg-blue-600 p-2 w-full mb-5">
-                               <h1 className="text-2xl font-semibold text-white">Tovar tavfsilotlari</h1>
+                                <h1 className="text-2xl font-semibold text-white">
+                                  Tovar tavfsilotlari
+                                </h1>
                               </div>
                               <div className="flex flex-col gap-1">
-                                <h2 className="text-lg font-semibold ">Ism: <span className="text-base font-normal">{currentItem?.name}</span></h2>
-                                <h2 className="text-lg font-semibold ">Telefon raqam: <span className="text-base font-normal">{currentItem?.phone_number}</span></h2>
-                                <h2 className="text-lg font-semibold ">Qarz: <span className="text-base font-normal">{currentItem?.debt} sum</span></h2>
-                                <h2 className="text-lg font-semibold ">Sana: <span className="text-base font-normal">{new Date(currentItem.created_at).toLocaleDateString('en-GB')}</span></h2>
+                                <h2 className="text-lg font-semibold ">
+                                  Ism:{" "}
+                                  <span className="text-base font-normal">
+                                    {currentItem?.name}
+                                  </span>
+                                </h2>
+                                <h2 className="text-lg font-semibold ">
+                                  Telefon raqam:{" "}
+                                  <span className="text-base font-normal">
+                                    {currentItem?.phone_number}
+                                  </span>
+                                </h2>
+                                <h2 className="text-lg font-semibold ">
+                                  Qarz:{" "}
+                                  <span className="text-base font-normal">
+                                    {currentItem?.debt} sum
+                                  </span>
+                                </h2>
+                                <h2 className="text-lg font-semibold ">
+                                  Sana:{" "}
+                                  <span className="text-base font-normal">
+                                    {new Date(
+                                      currentItem.created_at
+                                    ).toLocaleDateString("en-GB")}
+                                  </span>
+                                </h2>
                               </div>
                             </InformationModal>
-                          )
-                          }
+                          )}
                         </td>
                       </tr>
                     ))}

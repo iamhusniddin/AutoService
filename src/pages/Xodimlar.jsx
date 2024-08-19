@@ -19,8 +19,10 @@ import CustomersModal from "../components/modals/CustomersModal";
 import InformationModal from "../components/modals/InformationModal";
 import { Staff } from "../service/staff";
 import StaffModal from "../components/modals/StaffModal";
+import { useSidebar } from "../context/SidebarContext";
 
 function Xodimlar() {
+  const { isOpen } = useSidebar();
   const { xodimlar } = Details();
   const { data, loading, error } = useFetch(Staff.getProduct);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -76,7 +78,9 @@ function Xodimlar() {
  
 
   return (
-    <div className="w-[100%]">
+    <div  className={`transition-all duration-300 ${
+      !isOpen ? "ml-[235px]" : "ml-0"
+    } w-full`}>
       <main className="h-screen flex flex-col justify-between gap-7 p-[30px]">
         <Navbar title="Xodimlar" name="Руслан" adminType="Админ" />
 

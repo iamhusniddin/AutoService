@@ -1,7 +1,7 @@
 
  a {
     color: #333;
-    padding: 7px;
+    padding: 5px;
     
   }
 
@@ -15,6 +15,7 @@
   .sidebar.closed-sidebar {
     width: 0px !important;
     visibility: hidden;
+    margin-right: 0;
   }
 
   @media screen and (max-width:524px) and (min-width:324px){
@@ -24,11 +25,9 @@
     }
   }
 
-  @media screen and (max-width:554px){
-    .sidebar.open-sidebar{
-      width: 0px !important;
-      visibility: hidden;
-    }
+  .ggg{
+    width: 300px !important;
   }
 
+  
  

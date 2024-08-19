@@ -1,20 +1,24 @@
-import React from 'react'
+import React from "react";
 
-function EditModal({children, setEditModal}) {
+function EditModal({ children, setEditModal }) {
   const handleCloseModal = (e) => {
-    if (e.target.className.includes("overlay")) {
+    if (
+      e.target.className &&
+      e.target.className.toString().includes("overlay")
+    ) {
       setEditModal(false);
     }
   };
   const closeModal = () => {
     setEditModal(false);
   };
+
   return (
     <div
       onClick={handleCloseModal}
-      className="absolute top-0 z-100 left-0 w-full p-2 sm:p-0 h-screen overlay cursor-context-menu flex justify-center items-center bg-black/10"
+      className="absolute top-0 z-10 left-0 w-full p-2 sm:p-0 h-screen overlay cursor-context-menu overflow-y-auto flex justify-center items-center bg-black/10"
     >
-      <div className="relative rounded-lg shadow p-3 w-full max-w-[500px] bg-white">
+      <div className="relative overflow-y-scroll max-h-[525px] rounded-lg shadow p-3 w-full max-w-[500px] bg-white">
         <button
           onClick={closeModal}
           type="button"
@@ -40,7 +44,7 @@ function EditModal({children, setEditModal}) {
         <div className="p-4 md:p-5 text-center">{children}</div>
       </div>
     </div>
-  )
+  );
 }
 
-export default EditModal
+export default EditModal;

@@ -27,6 +27,18 @@ export const TopMonthlyTotal = {
     },
 }
 
+export const TopExpenses = {
+    async getExpenses() {
+        try {
+            // Parametrlarni URL-encode qilib, so'rov yuborish
+            const response = await axios.get(`statistics/expenses/`);
+            return response.data
+        } catch (error) {
+            throw error.response || new Error('Unknown error');
+        }
+    },
+}
+
 export const TopCustomer = {
     async getTopCustomer() {
         try {

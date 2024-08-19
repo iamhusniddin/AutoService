@@ -10,27 +10,47 @@ import logo from "../assets/fasscoLogo.png";
 import { useSidebar } from "../context/SidebarContext";
 
 function Sidebar() {
-  
-  const { isOpen } = useSidebar()
+  const { isOpen } = useSidebar();
 
   return (
-    
-      <div className={`sidebar ${isOpen ? 'closed-sidebar' : 'open-sidebar'} `}>
-        <div className="flex flex-col justify-between h-full bg-white/100 p-[40px] ">
+    <div className={`sidebar top-0 fixed z-auto left-0 min-h-screen ${isOpen ? "closed-sidebar" : "open-sidebar"}`}>
+      <div className="flex flex-col justify-between bg-white/100 p-[40px] min-h-screen">
         <div className="flex flex-col gap-[20px]">
           {/* logo section */}
           <div className="flex flex-col relative items-center">
             <img className="max-w-[140px]" src={logo} alt="" />
-            <p className="font-cursive2 absolute top-5  ml-1 left-14 text-sm text-blue-500">автосервис</p>
+            <p className="font-cursive2 absolute top-5  ml-1 left-14 text-sm text-blue-500">
+              автосервис
+            </p>
           </div>
 
-         
-          <div className="flex flex-col w-[150px] gap-2">
+          <div className="flex flex-col w-[150px] gap-1">
             <ul className="list-none">
               <li className="text-base font-medium">
                 <NavLink className="flex items-center gap-[8px]" to="/">
                   <FiHome className="text-xl" />
-                  Asosiy
+                  Главная
+                </NavLink>
+              </li>
+            </ul>
+            <hr className="border-[2px]" />
+
+            <ul>
+              <li className="text-base flex gap- items-center font-medium">
+                <CiMoneyBill className="text-2xl" />
+                Продажа
+              </li>
+              <li className=" font-medium text-secondary">
+                <NavLink className="flex items-center gap-[8px]" to="/buyurtma">
+                  ● Заказы
+                </NavLink>
+              </li>
+              <li className=" font-medium text-secondary">
+                <NavLink
+                  className="flex items-center gap-[8px]"
+                  to="/buyurtmatarixi"
+                >
+                  ● История
                 </NavLink>
               </li>
             </ul>
@@ -39,85 +59,64 @@ function Sidebar() {
             <ul>
               <li className="flex gap-2 items-center  font-medium">
                 <LuWarehouse className="text-xl" />
-                Ombor
+                Склад
               </li>
               <li className=" font-medium text-secondary">
                 <NavLink
                   className="flex items-center gap-[8px]"
-                  to="/импортные товары"
+                  to="/kirimtovarlar"
                 >
-                  — Kirimlar
+                  ● Приход товара
                 </NavLink>
               </li>
               <li className=" font-medium text-secondary">
-                <NavLink className="flex items-center gap-[8px]" to="/товары">
-                  — Tovarlar
+                <NavLink className="flex items-center gap-[8px]" to="/tovarlar">
+                  ● Товары
                 </NavLink>
               </li>
             </ul>
-            <hr className="border-[2px]" />
 
-            <ul>
-              <li className="text-base flex gap-2 items-center font-medium">
-                <CiMoneyBill className="text-2xl" />
-                Sotuv bo'limi
-              </li>
-              <li className=" font-medium text-secondary">
-                <NavLink
-                  className="flex items-center gap-[8px]"
-                  to="/заказы"
-                >
-                  — Buyurtmalar
-                </NavLink>
-              </li>
-            </ul>
             <hr className="border-[2px]" />
 
             <ul>
               <li className="text-base font-medium flex gap-2 items-center">
                 <TiUploadOutline className="text-xl" />
-                Umumiy
+                Прочие
               </li>
               <li className=" font-medium text-secondary">
                 <NavLink
                   className="flex items-center gap-[8px]"
-                  to="/поставщик"
+                  to="/taminotchi"
                 >
-                  — Ta'minlovchi
+                  ● Поставщик
                 </NavLink>
               </li>
               <li className=" font-medium text-secondary">
-                <NavLink
-                  className="flex items-center gap-[8px]"
-                  to="/услуги"
-                >
-                  — Xizmatlar
+                <NavLink className="flex items-center gap-[8px]" to="/xizmatlar">
+                  ● Сервисы
                 </NavLink>
               </li>
               <li className=" font-medium text-secondary">
-                <NavLink className="flex items-center gap-[8px]" to="/клиенты">
-                  — Mijozlar
+                <NavLink className="flex items-center gap-[8px]" to="/mijozlar">
+                  ● Клиенты
                 </NavLink>
               </li>
               <li className=" font-medium text-secondary">
                 <NavLink
                   className="flex items-center gap-[8px]"
-                  to="/автомобили"
+                  to="/avtomobillar"
                 >
-                  — Avtomobillar
+                  ● Автомобили
                 </NavLink>
               </li>
               <li className=" font-medium text-secondary">
-                <NavLink className="flex items-center gap-[8px]" to="/рабочий">
-                  — Xodimlar
+                <NavLink className="flex items-center gap-[8px]" to="/xodimlar">
+                  ● Сотрудники
                 </NavLink>
               </li>
               <li className=" font-medium text-secondary">
-                <NavLink
-                  className="flex items-center gap-[8px]"
-                  to="/расходы"
-                >
-                  — Xarajatlar
+                <NavLink className="flex items-center gap-[8px]" to="/xarajatlar">
+                  ● Расходы
                 </NavLink>
               </li>
             </ul>
@@ -128,8 +127,7 @@ function Sidebar() {
           <IoIosLogOut className="text-2xl" />
         </button>
       </div>
-      </div>
-    
+    </div>
   );
 }
 
