@@ -39,25 +39,7 @@ function Xizmatlar() {
   const handleAddService = () => {
     setServiceModal(true);
   };
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    const event = {
-      xizmat,
-      narx
-    };
-    
-    console.log(event);
-    
-    // Call handleAdd or any other logic after form submission
-    handleAdd();
-  };
   
-  const handleAdd = () => {
-    setServiceModal(false);
-  };
 
   //deleteModal
   const handleDelete = (item) => {
@@ -88,7 +70,7 @@ function Xizmatlar() {
       !isOpen ? "ml-[235px]" : "ml-0"
     } w-full`}>
       <main className="h-screen flex flex-col justify-between gap-7 p-[30px]">
-        <Navbar title="Xizmatlar" name="Руслан" adminType="Админ" />
+        <Navbar title="Сервисы" name="Руслан" adminType="Админ" />
 
         <section className="main-section">
           <div className=" flex flex-col lg:flex-row justify-between items-center p-[15px] mb-4">
@@ -104,31 +86,11 @@ function Xizmatlar() {
                 type="button"
                 onClick={handleAddService}
               >
-                <IoMdAdd className="text-xl" /> Xizmat qo'shish
+                <IoMdAdd className="text-xl" /> Добавить сервис
               </button>
               {serviceModal && (
                 <XizmatModal
-                  // provider={serviceModal}
-                  setServiceModal={setServiceModal}
-                >
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                    {/* <FormLabel>Xizmat qo'shish</FormLabel> */}
-                    <Input onChange={(e)=>setXizmat(e.target.value)} value={xizmat} required type="text" placeholder="Xizmat turi" />
-
-                    <Input onChange={(e)=>setNarx(e.target.value)} value={narx} required type="number" placeholder="Narxi*" />
-
-                    <Button
-                    type="submit"
-                      onClick={handleAdd}
-                      className="self-end flex items-center gap-2"
-                      width={180}
-                      colorScheme="gray"
-                    >
-                      {" "}
-                      <AiFillContainer className="text-xl" />
-                      Jadvalni to'ldirish
-                    </Button>
-                  </form>
+                  setServiceModal={setServiceModal}>
                 </XizmatModal>
               )}
           </div>
@@ -151,7 +113,7 @@ function Xizmatlar() {
               <tbody className="tbody">
                 {loading ? (
                   <tr>
-                    <td className="text-lg border-0">Yuklanmoqda...</td>
+                    <td className="text-lg border-0">Загрузка...</td>
                   </tr>
                 ) : (
                   <>
@@ -160,6 +122,7 @@ function Xizmatlar() {
                         <td className="td"> {index + 1}</td>
                         <td className="td"> {item?.name}</td>
                         <td className="td"> {item?.price}</td>
+                        <td className="td"> {new Date(item?.created_at).toLocaleDateString('en-GB')}</td>
                         <td className="td">
                           {" "}
                           <button
@@ -182,7 +145,7 @@ function Xizmatlar() {
                               handleDeleteConfirm={handleDeleteConfirm}
                             />
                           )}
-                          <button
+                          {/* <button
                           onClick={() => handleInform(item)}
                             type="button"
                             className="text-lg  text-blue-700"
@@ -201,7 +164,7 @@ function Xizmatlar() {
                               </div>
                             </InformationModal>
                           )
-                          }
+                          } */}
                         </td>
                       </tr>
                     ))}

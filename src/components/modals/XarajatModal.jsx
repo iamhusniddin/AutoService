@@ -1,21 +1,22 @@
-import { Button, FormControl, Input } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import React from "react";
 import { AiFillContainer } from "react-icons/ai";
 
-function XizmatModal({ setServiceModal }) {
+function XarajatModal({ setOpenModal }) {
   const handleCloseModal = (e) => {
     if (
       e.target.className &&
       e.target.className.toString().includes("overlay")
     ) {
-      setServiceModal(false);
+      setOpenModal(false);
     }
   };
   const closeModal = () => {
-    setServiceModal(false);
+    setOpenModal(false);
   };
+
   const handleAdd = () => {
-    setServiceModal(false);
+    setOpenModal(false);
   };
   return (
     <div
@@ -45,34 +46,22 @@ function XizmatModal({ setServiceModal }) {
           </svg>
         </button>
 
-        <div className="p-4 md:p-5 mt-4 text-center">
+        <div className="p-4 md:p-5 mt-3 text-center">
           <FormControl className="flex flex-col gap-3">
-            <Input
-              onChange={(e) => setXizmat(e.target.value)}
-             
-              required
-              type="text"
-              placeholder="Тип сервис"
-            />
+            <Input placeholder="Вид расходов" required type="text" id="nomi" />
 
-            <Input
-              onChange={(e) => setNarx(e.target.value)}
-          
-              required
-              type="number"
-              placeholder="Цена*"
-            />
+            <Input placeholder="Цена*" required type="number" id="nomi" />
+
+            <Input placeholder="Описание" required type="text" id="nomi" />
 
             <Button
-              type="submit"
               onClick={handleAdd}
               className="self-end flex items-center gap-2"
               width={180}
               colorScheme="gray"
             >
-              {" "}
               <AiFillContainer className="text-xl" />
-              Заполните таблицу 
+              Заполните таблицу
             </Button>
           </FormControl>
         </div>
@@ -81,4 +70,4 @@ function XizmatModal({ setServiceModal }) {
   );
 }
 
-export default XizmatModal;
+export default XarajatModal;

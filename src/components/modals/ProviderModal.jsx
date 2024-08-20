@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Button, FormLabel, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AiFillContainer } from "react-icons/ai";
 import useFetch from "../hooks/UseFetch";
@@ -11,7 +11,10 @@ function ProviderModal({ setProviderModal }) {
   });
 
   const handleCloseModal = (e) => {
-    if (e.target.className.includes("overlay")) {
+    if (
+      e.target.className &&
+      e.target.className.toString().includes("overlay")
+    ) {
       setProviderModal(false);
     }
   };
@@ -33,9 +36,10 @@ function ProviderModal({ setProviderModal }) {
     try {
       await Provider.postProvider(formData);
       setProviderModal(false);
-    } catch (error) {}
-    setProviderModal(false);
-    console.error("Error submitting provider:", error);
+    } catch (error) {
+      console.error("Error submitting provider:", error);
+    }
+    setProviderModal(false)
   };
 
   return (
@@ -67,11 +71,7 @@ function ProviderModal({ setProviderModal }) {
         </button>
 
         <div className="p-4 md:p-5 text-center mt-2">
-          <FormControl
-            as="form"
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-3"
-          >
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <FormLabel>Добавить нового поставщика</FormLabel>
             <Input
               name="name"
@@ -79,7 +79,7 @@ function ProviderModal({ setProviderModal }) {
               value={formData.name}
               required
               type="text"
-              placeholder="Ismi*"
+              placeholder="Имя*"
             />
 
             <Input
@@ -88,7 +88,7 @@ function ProviderModal({ setProviderModal }) {
               value={formData.phone_number}
               required
               type="number"
-              placeholder="Telefon raqam"
+              placeholder="Номер телефона"
             />
             <Button
               onClick={handleSubmit}
@@ -97,9 +97,9 @@ function ProviderModal({ setProviderModal }) {
               colorScheme="gray"
             >
               <AiFillContainer className="text-xl" />
-              Jadvalni to'ldirish
+              Заполните таблицу
             </Button>
-          </FormControl>
+          </form>
         </div>
       </div>
     </div>

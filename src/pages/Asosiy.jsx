@@ -43,23 +43,28 @@ function Asosiy() {
   const {data: expenses} = useFetch(TopExpenses.getExpenses)
   // const { data: customers } = useFetch(TopCustomer.getTopCustomer);
 
+  console.log(monthly);
+  
+
   const transformedData = monthly
     ? [
-        { name: "январь", доход: monthly.jan },
-        { name: "февраль", доход: monthly.feb },
+        { name: "янв", доход: monthly.jan },
+        { name: "фев", доход: monthly.feb },
         { name: "март", доход: monthly.mar },
-        { name: "апрель", доход: monthly.apr },
+        { name: "апр", доход: monthly.apr },
         { name: "май", доход: monthly.may },
         { name: "июнь", доход: monthly.jun },
         { name: "июль", доход: monthly.jul },
-        { name: "август", доход: monthly.aug },
-        { name: "сентябрь", доход: monthly.sep },
-        { name: "октябрь", доход: monthly.oct },
-        { name: "ноябрь", доход: monthly.nov },
-        { name: "декабрь", доход: monthly.dec },
+        { name: "авг", доход: monthly.aug },
+        { name: "сен", доход: monthly.sep },
+        { name: "окт", доход: monthly.oct },
+        { name: "нояб", доход: monthly.nov },
+        { name: "дек", доход: monthly.dec },
       ]
     : [];
 
+   
+    
    
 
     const data1 = [

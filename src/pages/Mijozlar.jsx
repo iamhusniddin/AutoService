@@ -45,10 +45,7 @@ function Mijozlar() {
     setCustomerModal(true);
   };
 
-  const handleAdd = () => {
-    setCustomerModal(false);
-  };
-
+ 
 
   //deleteModal
   const handleDelete = (item) => {
@@ -81,7 +78,7 @@ function Mijozlar() {
       !isOpen ? "ml-[235px]" : "ml-0"
     } w-full`}>
       <main className="h-screen flex flex-col justify-between gap-7 p-[30px]">
-        <Navbar title="Mijozlar" name="Руслан" adminType="Админ" />
+        <Navbar title="Клиенты" name="Руслан" adminType="Админ" />
 
         <section className="main-section">
           <form className=" flex flex-col lg:flex-row justify-between items-center p-[15px] mb-4">
@@ -106,52 +103,24 @@ function Mijozlar() {
               </div>
               <input
                 type="search"
-                className="block w-40 sm:w-56 p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
-                placeholder="Search..."
+                className="block md:w-auto w-[200px] p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
+                placeholder="Поиск..."
                 required
               />
             </div>
             </div>
 
             <button
-              className="primary-btn flex items-center gap-2 mt-4 lg:mt-0 lg:self-end w-[160px] sm:w-auto hover:bg-slate-400 hover:text-white"
+              className="primary-btn flex items-center justify-center gap-2 mt-4 lg:mt-0  w-[200px] sm:w-[220px] hover:bg-slate-400 hover:text-white"
               type="button"
               onClick={handleAddService}
             >
-              <IoMdAdd className="text-xl" /> Mijoz qo'shish
+              <IoMdAdd className="text-xl" /> Добавить клиента
             </button>
             {customerModal && (
               <CustomersModal
-                // provider={serviceModal}
                 setCustomerModal={setCustomerModal}
               >
-                <FormControl className="flex flex-col gap-3">
-                  <FormLabel>Mijoz qo'shish</FormLabel>
-                  <Input required type="text" placeholder="Ism" />
-
-                  <Input required type="text" placeholder="Familiya" />
-
-                  <Input required type="number" placeholder="Telefon raqam" />
-
-                  <Input type="text" placeholder="Passport seriya harfi" />
-
-                  <Input type="number" placeholder="Passport seriya raqami" />
-
-                  <Input required type="address" placeholder="Manzil" />
-
-                  <Input required type="number" placeholder="Qarz" />
-
-                  <Button
-                    onClick={handleAdd}
-                    className="self-end flex items-center gap-2"
-                    width={180}
-                    colorScheme="gray"
-                  >
-                    {" "}
-                    <AiFillContainer className="text-xl" />
-                    Jadvalni to'ldirish
-                  </Button>
-                </FormControl>
               </CustomersModal>
             )}
           </form>
@@ -174,7 +143,7 @@ function Mijozlar() {
               <tbody className="tbody">
                 {loading ? (
                   <tr>
-                    <td className="text-lg border-0">Yuklanmoqda...</td>
+                    <td className="text-lg border-0">Загрузка...</td>
                   </tr>
                 ) : (
                   <>
@@ -186,6 +155,7 @@ function Mijozlar() {
                           {item?.first_name + " " + item?.last_name}
                         </td>
                         <td className="td"> {item?.phone_number}</td>
+                        <td className="td">{item?.passport_serial_numbers + item?.passport_serial_letters}</td>
                         <td className="td">{item?.debt}</td>
                         <td className="td">{item?.address}</td>
                         <td className="td">
@@ -210,7 +180,7 @@ function Mijozlar() {
                               handleDeleteConfirm={handleDeleteConfirm}
                             />
                           )}
-                          <button
+                          {/* <button
                           onClick={() => handleInform(item)}
                             type="button"
                             className="text-lg  text-blue-700"
@@ -234,7 +204,7 @@ function Mijozlar() {
                               </div>
                             </InformationModal>
                           )
-                          }
+                          } */}
                         </td>
                       </tr>
                     ))}

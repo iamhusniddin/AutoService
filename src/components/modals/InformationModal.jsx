@@ -19,7 +19,7 @@ function InformationModal({ children, setOpenInformModal }) {
       onClick={handleCloseModal}
       className="absolute top-0 z-10 left-0 w-full p-2 sm:p-0 h-screen overlay cursor-context-menu flex justify-center items-center bg-black/10"
     >
-      <div className="relative rounded-lg shadow max-w-auto w-[400px] pb-6 bg-white">
+      <div className="relative rounded-lg shadow max-w-auto w-[420px] pb-6 bg-white">
         <button
           onClick={closeModal}
           type="button"
@@ -56,7 +56,7 @@ function InformationModal({ children, setOpenInformModal }) {
             type="button"
             className="text-base font-semibold text-blue-600"
           >
-            Yopish
+            Закрыть
           </button>
         </div>
       </div>

@@ -96,15 +96,14 @@ function Taminlovchi() {
                 </div>
                 <input
                   type="search"
-                  className="block w-40 sm:w-56 p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
-                  placeholder="Search..."
-                  required
+                  className="block w-[210px] sm:w-auto p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
+                  placeholder="Поиск..."
                 />
               </div>
             </div>
 
             <button
-              className="primary-btn flex items-center gap-2 mt-4 lg:mt-0 lg:self-end lg:w-auto hover:bg-slate-400 hover:text-white"
+              className="primary-btn flex items-center justify-center gap-2 mt-4 lg:mt-0 w-[220px] lg:w-auto hover:bg-slate-400 hover:text-white"
               type="button"
               onClick={handleAddProvider}
             >
@@ -136,7 +135,7 @@ function Taminlovchi() {
               <tbody className="tbody">
                 {loading ? (
                   <tr>
-                    <td className="text-lg border-0">Yuklanmoqda...</td>
+                    <td className="text-lg border-0">Загрузка...</td>
                   </tr>
                 ) : (
                   <>
@@ -146,6 +145,11 @@ function Taminlovchi() {
                         <td className="td"> {item.name}</td>
                         <td className="td"> {item.phone_number}</td>
                         <td className="td"> {item.debt}</td>
+                        <td className="td">
+                          {new Date(item?.created_at).toLocaleDateString(
+                            "en-GB"
+                          )}
+                        </td>
                         <td className="td">
                           {" "}
                           <button
@@ -168,7 +172,7 @@ function Taminlovchi() {
                               handleDeleteConfirm={handleDeleteConfirm}
                             />
                           )}
-                          <button
+                          {/* <button
                             onClick={() => handleInform(item)}
                             type="button"
                             className="text-lg  text-blue-700"
@@ -213,7 +217,7 @@ function Taminlovchi() {
                                 </h2>
                               </div>
                             </InformationModal>
-                          )}
+                          )} */}
                         </td>
                       </tr>
                     ))}

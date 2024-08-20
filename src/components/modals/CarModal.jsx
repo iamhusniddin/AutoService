@@ -2,23 +2,22 @@ import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import React from 'react'
 import { AiFillContainer } from 'react-icons/ai';
 
-function CustomerModal({setCustomerModal}) {
-  const handleCloseModal = (e) => {
-    if (
-      e.target.className &&
-      e.target.className.toString().includes("overlay")
-    ) {
-      setCustomerModal(false);
-    }
-  };
+function CarModal({ setCarModal}) {
+    const handleCloseModal = (e) => {
+        if (
+          e.target.className &&
+          e.target.className.toString().includes("overlay")
+        ) {
+            setCarModal(false);
+        }
+      };
   const closeModal = () => {
-    setCustomerModal(false);
+    setCarModal(false);
   };
 
   const handleAdd = () => {
-    setCustomerModal(false);
-  };
-
+    setCarModal(false)
+  }
   return (
     <div
       onClick={handleCloseModal}
@@ -49,20 +48,19 @@ function CustomerModal({setCustomerModal}) {
 
         <div className="p-4 md:p-5 text-center">
         <FormControl className="flex flex-col gap-3">
-                  <FormLabel>Добавить клиента</FormLabel>
+                  <FormLabel>Добавить автомобиль</FormLabel>
+
                   <Input required type="text" placeholder="Имя" />
 
-                  <Input required type="text" placeholder="Фамилия" />
+                  <Input required type="text" placeholder="Vincode*" />
 
-                  <Input required type="number" placeholder="Номер телефона" />
+                  <Input required type="text" placeholder="Бренд" />
 
-                  <Input type="text" placeholder="Письмо о серии паспорта" />
+                  <Input type="text" placeholder="Цвет" />
 
-                  <Input type="number" placeholder="Серийный номер паспорта" />
+                  <Input type="text" placeholder="Государственный номер" />
 
-                  <Input required type="address" placeholder="Адрес" />
-
-                  <Input required type="number" placeholder="Долг" />
+                  <Input type="text" placeholder="Клиент" />
 
                   <Button
                     onClick={handleAdd}
@@ -72,7 +70,7 @@ function CustomerModal({setCustomerModal}) {
                   >
                     {" "}
                     <AiFillContainer className="text-xl" />
-                    Заполните таблицу
+                    Заполните таблицу 
                   </Button>
                 </FormControl>
         </div>
@@ -81,4 +79,4 @@ function CustomerModal({setCustomerModal}) {
   )
 }
 
-export default CustomerModal
+export default CarModal

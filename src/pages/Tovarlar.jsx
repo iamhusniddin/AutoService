@@ -195,8 +195,8 @@ function Tovarlar() {
                   type="search"
                   value={searchQuery}
                   onChange={handleSearchChange}
-                  className="block w-40 sm:w-56 p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
-                  placeholder="Search..."
+                  className="block w-44 sm:w-56 p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
+                  placeholder="Поиск..."
                 />
               </div>
               <div>
@@ -234,7 +234,7 @@ function Tovarlar() {
               <tbody className="tbody">
                 {loading ? (
                   <tr>
-                    <td className=" text-lg border-0">Yuklanmoqda</td>
+                    <td className=" text-lg border-0">Загрузка...</td>
                   </tr>
                 ) : (
                   <>
@@ -423,8 +423,8 @@ function Tovarlar() {
                         <td className="td"> {item?.min_amount}</td>
                         <td className="td"> {item?.provider?.name}</td>
                         <td className="td"> {item?.total_benefit}</td>
-                        <td className="td">
-                          {/* <button
+                        {/* <td className="td">
+                          <button
                             onClick={() => handleEditClick(item.id)}
                             type="button"
                             className="text-lg text-yellow-500"
@@ -546,7 +546,7 @@ function Tovarlar() {
                               setDeleteModal={setDeleteModal}
                               handleDeleteConfirm={handleDeleteConfirm}
                             />
-                          )} */}
+                          )}
                           <button
                             onClick={() => handleInform(item)}
                             type="button"
@@ -561,7 +561,7 @@ function Tovarlar() {
                              
                             </InformationModal>
                           )}
-                        </td>
+                        </td> */}
                       </tr>
                     ))}
                   </>

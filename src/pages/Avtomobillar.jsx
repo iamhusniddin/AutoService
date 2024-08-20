@@ -19,6 +19,7 @@ import CustomersModal from "../components/modals/CustomersModal";
 import { Cars } from "../service/cars";
 import InformationModal from "../components/modals/InformationModal";
 import { useSidebar } from "../context/SidebarContext";
+import CarModal from "../components/modals/CarModal";
 
 function Avtomobillar() {
   const { isOpen } = useSidebar();
@@ -28,22 +29,18 @@ function Avtomobillar() {
   const [selectedProductName, setSelectedProductName] = useState(null);
   const [currentItem, setCurrentItem] = useState(null);
   const [products, setProducts] = useState([]);
-  const [customerModal, setCustomerModal] = useState(false);
+  const [carModal, setCarModal] = useState(false);
   const [openInfromModal, setOpenInformModal] = useState(false);
   console.log(data);
-  
 
   useEffect(() => {
     setProducts(data);
   }, [data]);
 
   if (error) return <div>Xatolik: {error.message}</div>;
-  const handleAddService = () => {
-    setCustomerModal(true);
-  };
 
-  const handleAdd = () => {
-    setCustomerModal(false);
+  const handleAddCar = () => {
+    setCarModal(true);
   };
 
   //deleteModal
@@ -64,17 +61,20 @@ function Avtomobillar() {
     }
   };
 
-// informModal
+  // informModal
   const handleInform = (item) => {
     setCurrentItem(item);
-    setOpenInformModal(true)
+    setOpenInformModal(true);
   };
-  
 
   return (
-    <div className={`transition-all duration-300 ${!isOpen ? 'ml-[235px]' : 'ml-0'} w-full`}>
+    <div
+      className={`transition-all duration-300 ${
+        !isOpen ? "ml-[235px]" : "ml-0"
+      } w-full`}
+    >
       <main className="h-screen flex flex-col justify-between gap-7 p-[30px]">
-        <Navbar title="Avtomobillar" name="Руслан" adminType="Админ" />
+        <Navbar title="Автомобили" name="Руслан" adminType="Админ" />
 
         <section className="main-section">
           <form className=" flex flex-col lg:flex-row justify-between items-center p-[15px] mb-4">
@@ -99,8 +99,8 @@ function Avtomobillar() {
                 </div>
                 <input
                   type="search"
-                  className="block w-40 sm:w-56 p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
-                  placeholder="Search..."
+                  className="block w-[200px] sm:w-auto p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
+                  placeholder="Поиск..."
                   required
                 />
               </div>
@@ -114,50 +114,14 @@ function Avtomobillar() {
             </div>
 
             <button
-              className="primary-btn flex items-center gap-2 mt-4 lg:mt-0 lg:self-end lg:w-auto hover:bg-slate-400 hover:text-white"
+              className="primary-btn flex items-center gap-2 mt-4 lg:mt-0  w-auto  hover:bg-slate-400 hover:text-white"
               type="button"
-              onClick={handleAddService}
+              onClick={handleAddCar}
             >
-              <IoMdAdd className="text-xl" /> Avtomobil qo'shish
+              <IoMdAdd className="text-xl" />
+              Добавить автомобиль
             </button>
-            {customerModal && (
-              <CustomersModal
-                // provider={serviceModal}
-                setCustomerModal={setCustomerModal}
-              >
-                <FormControl className="flex flex-col gap-3">
-                  <FormLabel>Avtomobil qo'shish</FormLabel>
-
-                  <Input required type="number" placeholder="Kod*" />
-
-                  <Input required type="text" placeholder="Ism" />
-
-                  <Input required type="text" placeholder="Brand" />
-
-
-                  <Input type="text" placeholder="Rangi" />
-
-                  <Input type="text" placeholder="Davlat raqami" />
-
-                  <Input type="text" placeholder="Xaridor" />
-
-                  {/* <Select placeholder="Xaridor" className="text-secondary" name="" id="">
-                    <option className="text-black" value="ism">Otabek Tursunov</option>
-                 </Select> */}
-
-                  <Button
-                    onClick={handleAdd}
-                    className="self-end flex items-center gap-2"
-                    width={180}
-                    colorScheme="gray"
-                  >
-                    {" "}
-                    <AiFillContainer className="text-xl" />
-                    Jadvalni to'ldirish
-                  </Button>
-                </FormControl>
-              </CustomersModal>
-            )}
+            {carModal && <CarModal setCarModal={setCarModal}></CarModal>}
           </form>
 
           <div className="overflow-x-auto">
@@ -178,15 +142,15 @@ function Avtomobillar() {
               <tbody className="tbody">
                 {loading ? (
                   <tr>
-                    <td className="text-lg border-0">Yuklanmoqda...</td>
+                    <td className="text-lg border-0">Загрузка...</td>
                   </tr>
                 ) : (
                   <>
                     {products?.map((item, index) => (
                       <tr className="trow" key={item.id}>
                         <td className="td"> {index + 1}</td>
-                        <td className="td"> {item?.code}</td>
                         <td className="td">{item?.name}</td>
+                        <td className="td"> {item?.code}</td>
                         <td className="td">{item?.brand}</td>
                         <td className="td">{item?.color}</td>
                         <td className="td">{item?.state_number}</td>
@@ -195,6 +159,11 @@ function Avtomobillar() {
                           {item?.customer?.first_name +
                             " " +
                             item?.customer?.last_name}
+                        </td>
+                        <td className="td">
+                          {new Date(item?.created_at).toLocaleDateString(
+                            "en-GB"
+                          )}
                         </td>
                         <td className="td">
                           {" "}
@@ -218,7 +187,7 @@ function Avtomobillar() {
                               handleDeleteConfirm={handleDeleteConfirm}
                             />
                           )}
-                          <button
+                          {/* <button
                           onClick={() => handleInform(item)}
                             type="button"
                             className="text-lg  text-blue-700"
@@ -228,20 +197,20 @@ function Avtomobillar() {
                           {openInfromModal && (
                             <InformationModal  setOpenInformModal={setOpenInformModal}>
                               <div className="bg-blue-600 p-2 w-full mb-5">
-                               <h1 className="text-2xl font-semibold text-white">Mashina tavfsilotlari</h1>
+                               <h1 className="text-2xl font-semibold text-white">Информация об автомобиле</h1>
                               </div>
                               <div className="flex flex-col gap-1">
-                                <h2 className="text-lg font-semibold ">Artikul: <span className="text-base font-normal">{currentItem?.code}</span></h2>
-                                <h2 className="text-lg font-semibold ">Mahsulot nomi: <span className="text-base font-normal">{currentItem?.name}</span></h2>
-                                <h2 className="text-lg font-semibold ">Brand: <span className="text-base font-normal">{currentItem?.brand}</span></h2>
-                                <h2 className="text-lg font-semibold ">Rangi: <span className="text-base font-normal">{currentItem?.color}</span></h2>
-                                <h2 className="text-lg font-semibold ">Davlat raqami: <span className="text-base font-normal">{currentItem?.state_number}</span></h2>
-                                <h2 className="text-lg font-semibold "> Sana:{" "}<span className="text-base font-normal">{new Date(currentItem.created_at).toLocaleDateString("en-GB")}</span></h2>
+                                <h2 className="text-lg font-semibold ">Имя: <span className="text-base font-normal">{currentItem?.name}</span></h2>
+                                <h2 className="text-lg font-semibold ">Артикуль : <span className="text-base font-normal">{currentItem?.code}</span></h2>
+                                <h2 className="text-lg font-semibold ">Бренд: <span className="text-base font-normal">{currentItem?.brand}</span></h2>
+                                <h2 className="text-lg font-semibold ">Цвет: <span className="text-base font-normal">{currentItem?.color}</span></h2>
+                                <h2 className="text-lg font-semibold ">Государственный номер: <span className="text-base font-normal">{currentItem?.state_number}</span></h2>
+                                <h2 className="text-lg font-semibold "> Дата:{" "}<span className="text-base font-normal">{new Date(currentItem.created_at).toLocaleDateString("en-GB")}</span></h2>
 
                               </div>
                             </InformationModal>
                           )
-                          }
+                          } */}
                         </td>
                       </tr>
                     ))}

@@ -12,17 +12,16 @@ function Details() {
   ];
 
   const tovar = [
-    "Tovar nomi",
-    "Artikul",
-    "Miqdori",
-    "Birlik",
-    "Kelish summasi",
-    "Sotish summasi",
-    "Chegirma",
-    "Minimal miqdor",
-    "Yetkazib beruvchi",
-    "Umumiy",
-    "Holat"
+    "Имя",
+    "Vincode",
+    "Количество",
+    "Единство",
+    "Сумма поступления",
+    "Сумма продажи",
+    "Скидка",
+    "Мин   количество",
+    "Поставщик",
+    "Общий",
   ];
 
   const buyurtmalar = [
@@ -35,52 +34,56 @@ function Details() {
   ];
 
   const taminlovchi = [
-    "Ism",
-    "Telefon raqam",
-    "Qarz",
-    "Holat"
+    "Имя",
+    "Номер телефона",
+    "Долг",
+    "Дата",
+    "Статус"
   ];
 
   const xizmatlar = [
-    "Xizmat turi",
-    "Narxi",
-    "Holat"
+    "Тип сервис",
+    "Цена",
+    "Дата",
+    "Статус"
   ];
 
   const mijozlar = [
-    "Ism familiya",
-    "Telefon raqam",
-    "Qarz",
-    "Manzil",
-    "Holat"
+    "Имя фамилия",
+    "Номер телефона",
+    "Паспорт серии",
+    "Долг",
+    "Адрес",
+    "Статус"
   ];
 
   const avtomobillar = [
-    "Kod",
-    "Nomi",
-    "Brand",
-    "Rangi",
-    "Davlat raqami",
-    "Xaridor",
-    "Holat"
+    "Имя",
+    "Vincode",
+    "Бренд",
+    "Цвет",
+    "Гос номер",
+    "Клиент",
+    "Дата",
+    "Статус"
   ];
 
   const xodimlar = [
-    "Username",
-    "Ism",
-    "Familiya",
-    "Telefon raqam",
-    "Kasbi",
-    "Maosh",
-    "Ish vaqti",
-    "Holat"
+    "Усернаме",
+    "Имя",
+    "Фамилия",
+    "Номер телефона",
+    "Профессия",
+    "Зарплата",
+    "Рабочее время",
+    "Статус"
   ]
   
   const xarajatlar = [
-    "Xarajat turi",
-    "Narxi",
-    "Tavsif",
-    "Holat"
+    "Вид расходов",
+    "Цена",
+    "Описание",
+    "Дата",
   ]
 
   return {kirim, tovar, buyurtmalar, taminlovchi, xizmatlar, mijozlar, avtomobillar, xodimlar, xarajatlar };

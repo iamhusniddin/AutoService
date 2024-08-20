@@ -1,14 +1,24 @@
+import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import React from 'react'
+import { AiFillContainer } from 'react-icons/ai';
 
-function StaffModal({children, setStaffModal}) {
+function StaffModal({ setStaffModal}) {
   const handleCloseModal = (e) => {
-    if (e.target.className.includes("overlay")) {
-        setStaffModal(false);
+    if (
+      e.target.className &&
+      e.target.className.toString().includes("overlay")
+    ) {
+      setStaffModal(false);
     }
   };
   const closeModal = () => {
     setStaffModal(false);
   };
+
+  const handleAdd = () => {
+    setStaffModal(false)
+  }
+
   return (
     <div
       onClick={handleCloseModal}
@@ -37,7 +47,35 @@ function StaffModal({children, setStaffModal}) {
           </svg>
         </button>
 
-        <div className="p-4 md:p-5 text-center">{children}</div>
+        <div className="p-4 md:p-5 text-center">
+           <FormControl className="flex flex-col gap-3">
+                  <FormLabel>Добавить сотрудника</FormLabel>
+                  <Input required type="text" placeholder="Усернаме" />
+
+                  <Input required type="text" placeholder="Имя" />
+
+                  <Input required type="text" placeholder="Фамилия" />
+
+                  <Input required type="number" placeholder="Номер телефона" />
+
+                  <Input type="text" placeholder="Профессия" />
+
+                  <Input type="number" placeholder="Зарплата" />
+
+                  <Input required type="number" placeholder="Рабочее время" />
+
+                  <Button
+                   onClick={handleAdd}
+                    className="self-end flex items-center gap-2"
+                    width={180}
+                    colorScheme="gray"
+                  >
+                    {" "}
+                    <AiFillContainer className="text-xl" />
+                    Заполните таблицу
+                  </Button>
+                </FormControl>
+        </div>
       </div>
     </div>
   )

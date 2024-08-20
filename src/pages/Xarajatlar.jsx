@@ -20,6 +20,7 @@ import ProviderModal from "../components/modals/ProviderModal";
 import { Expenses } from "../service/expenses";
 import InformationModal from "../components/modals/InformationModal";
 import { useSidebar } from "../context/SidebarContext";
+import XarajatModal from "../components/modals/XarajatModal";
 
 function Xarajatlar() {
   const { isOpen } = useSidebar();
@@ -33,8 +34,6 @@ function Xarajatlar() {
   const [selectedProductName, setSelectedProductName] = useState(null);
   const [currentItem, setCurrentItem] = useState(null);
   const [openInfromModal, setOpenInformModal] = useState(false);
-  
-  
 
   useEffect(() => {
     setProducts(data);
@@ -56,12 +55,10 @@ function Xarajatlar() {
     setProviderModal(false);
   };
 
-
   //editModal
   const handleEditClick = (id) => {
     setEditModal(true);
   };
-
 
   // deleteModal
   const handleDelete = (item) => {
@@ -84,20 +81,17 @@ function Xarajatlar() {
   // informModal
   const handleInform = (item) => {
     setCurrentItem(item);
-    setOpenInformModal(true)
+    setOpenInformModal(true);
   };
 
- 
-  
-
-  
-
   return (
-    <div className={`transition-all duration-300 ${
-      !isOpen ? "ml-[235px]" : "ml-0"
-    } w-full`}>
+    <div
+      className={`transition-all duration-300 ${
+        !isOpen ? "ml-[235px]" : "ml-0"
+      } w-full`}
+    >
       <main className="h-screen flex flex-col justify-between gap-7 p-[30px] ">
-        <Navbar title="Xarajatlar" name="Руслан" adminType="Админ" />
+        <Navbar title="Расходы" name="Руслан" adminType="Админ" />
 
         <section className="main-section">
           <form className=" flex flex-col lg:flex-row justify-between items-center p-[15px] mb-4">
@@ -122,14 +116,14 @@ function Xarajatlar() {
                 </div>
                 <input
                   type="search"
-                  className="block w-40 sm:w-56 p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
-                  placeholder="Search..."
+                  className="block  w-[220px] sm:w-auto p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
+                  placeholder="Поиск..."
                   required
                 />
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+        
               {/* <button
                 className="primary-btn flex items-center gap-2 mt-4 lg:mt-0 lg:self-end lg:w-auto hover:bg-slate-400 hover:text-white"
                 type="button"
@@ -164,118 +158,18 @@ function Xarajatlar() {
                 </ProviderModal>
               )} */}
               <button
-                className="primary-btn flex items-center gap-2 lg:mt-0 lg:self-end lg:w-auto sm:mt-4 hover:bg-slate-400 hover:text-white"
+                className="primary-btn w-[220px] md:w-[220px] lg:w-auto flex items-center justify-center gap-2  mt-4 md:mt-4 lg:mt-0 hover:bg-slate-400 hover:text-white"
                 type="button"
                 onClick={handleClick}
               >
-                <IoMdAdd className="text-xl" />Xarajat qo'shish
+                <IoMdAdd className="text-xl" />
+                Добавить расходы
               </button>
               {openModal && (
-                <Modal openModal={openModal} setOpenModal={setOpenModal}>
-                  <FormControl className="flex flex-col gap-3">
-                    <FormLabel htmlFor="nomi">
-                      Tovar nomi
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="text"
-                        id="nomi"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="artikul">
-                      Artikul
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="artikul"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="miqdor">
-                      Miqdori
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="miqdor"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="birlik">
-                      Birlik
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="text"
-                        id="birlik"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="kelishsummasi">
-                      Kelish summasi
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="kelishsummasi"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="sotishsummasi">
-                      Sotish summasi
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="sotishsummasi"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="chegirma">
-                      Chegirma
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="chegirma"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="minimalmiqdor">
-                      Minimal miqdor
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="number"
-                        id="minimalmiqdor"
-                      />
-                    </FormLabel>
-
-                    <FormLabel htmlFor="yetkazib beruvchi">
-                      Yetkazib beruvchi
-                      <Input
-                        // onChange={handleAddChange}
-                        required
-                        type="text"
-                        id="yetkazib beruvch"
-                      />
-                    </FormLabel>
-
-                    <Button
-                      onClick={handleAdd}
-                      className="self-end flex items-center gap-2"
-                      width={180}
-                      colorScheme="gray"
-                    >
-                      <AiFillContainer className="text-xl" />
-                      Jadvalni to'ldirish
-                    </Button>
-                  </FormControl>
-                </Modal>
+                <XarajatModal setOpenModal={setOpenModal}>
+                </XarajatModal>
               )}
-            </div>
+           
           </form>
 
           <div className="overflow-x-auto">
@@ -296,7 +190,7 @@ function Xarajatlar() {
               <tbody className="tbody">
                 {loading ? (
                   <tr>
-                    <td className="text-lg border-0">Yuklanmoqda...</td>
+                    <td className="text-lg border-0">Загрузка...</td>
                   </tr>
                 ) : (
                   <>
@@ -307,48 +201,9 @@ function Xarajatlar() {
                         <td className="td"> {item?.price}</td>
                         <td className="td"> {item?.description}</td>
                         <td className="td">
-                          {" "}
-                          <button
-                            type="button"
-                            className="text-lg text-yellow-500"
-                          >
-                            <MdOutlineEdit />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(item)}
-                            type="button"
-                          >
-                            <RiDeleteBinLine className="text-lg mx-2 text-red-600" />
-                          </button>
-                          {deleteModal && (
-                            <DeleteModal
-                              selectedProductName={selectedProductName}
-                              handleDelete={handleDelete}
-                              setDeleteModal={setDeleteModal}
-                              handleDeleteConfirm={handleDeleteConfirm}
-                            />
+                          {new Date(item?.created_at).toLocaleDateString(
+                            "en-GB"
                           )}
-                          <button
-                            onClick={() => handleInform(item)}
-                            type="button"
-                            className="text-lg  text-blue-700"
-                          >
-                            <SlEye />
-                          </button>
-                          {openInfromModal && (
-                            <InformationModal  setOpenInformModal={setOpenInformModal}>
-                              <div className="bg-blue-600 p-2 w-full mb-5">
-                               <h1 className="text-2xl font-semibold text-white">Xarajat tavfsilotlari</h1>
-                              </div>
-                              <div className="flex flex-col  gap-1">
-                                <h2 className="text-lg font-semibold ">Xarajat turi: <span className="text-base font-normal">{currentItem?.type?.name}</span></h2>
-                                <h2 className="text-lg font-semibold ">Narxi: <span className="text-base font-normal">{currentItem?.price} sum</span></h2>
-                                <h2 className="text-lg font-semibold ">Tavsif: <span className="text-base font-normal">{currentItem?.description}</span></h2>
-                                <h2 className="text-lg font-semibold ">Sana: <span className="text-base font-normal">{new Date(currentItem.created_at).toLocaleDateString('en-GB')}</span></h2>
-                              </div>
-                            </InformationModal>
-                          )
-                          }
                         </td>
                       </tr>
                     ))}

@@ -16,6 +16,7 @@ function BuyurtmaTavfsiloti() {
   const { orderService, loading, error } = useFetch(() =>
     OrderService.getProduct(id)
   );
+  console.log(order.services);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Xatolik: {error.message}</div>;
@@ -73,7 +74,7 @@ function BuyurtmaTavfsiloti() {
               </tbody>
             </table>
 
-            <div className="mt-5  px-3 shadow">
+            <div className="mt-5  p-3 shadow">
               <h2 className="text-xl py-1 font-semibold mb-2">
                 Информация о клиенте
               </h2>
@@ -105,11 +106,12 @@ function BuyurtmaTavfsiloti() {
             <div className="mt-5 flex gap-6 px-3">
               {/* 1 */}
               <div className="w-[50%]">
-                <h2 className="text-xl py-1 font-semibold mb-1">Maxsulotlar</h2>
+                <h2 className="text-xl py-1 font-semibold mb-1">Продукты</h2>
                 <hr />
                 <table className="w-full mt-2">
                   <thead className="thead">
                     <tr>
+                      <th className="border">№</th>
                       <th className="border">Nomi</th>
                       <th className="border">Artikul</th>
                       <th className="border">Miqdori</th>
@@ -118,39 +120,45 @@ function BuyurtmaTavfsiloti() {
                     </tr>
                   </thead>
                   <tbody className="tbody">
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                    {order?.products?.map((item, index) => (
+                      <tr className="trow" key={item.id}>
+                        <td className="td"> {index + 1}</td>
+                        <td className="td"> {item?.product?.name}</td>
+                        <td className="td"> {item?.product?.code}</td>
+                        <td className="td"> {item?.product?.amount}</td>
+                        <td className="td"> {item?.product?.max_discount}</td>
+                        <td className="td"> {item?.product?.provider?.name}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
 
               {/* 2 */}
               <div className="w-[50%]">
-                <h2 className="text-xl py-1 font-semibold mb-1">Servislar</h2>
+                <h2 className="text-xl py-1 font-semibold mb-1">Сервисы</h2>
                 <hr />
                 <table className="w-full mt-2">
                   <thead className="thead">
                     <tr>
+                      <th className="border">№</th>
                       <th className="border">Mashina</th>
-                      <th className="border">Masofasi</th>
-                      <th className="border">Nomi</th>
-                      <th className="border">Miqdori</th>
-                      <th className="border">Chegirma</th>
+                      <th className="border">Xodim</th>
+                      <th className="border">Narxi</th>
+                      <th className="border">Tavsif</th>
+                      
                     </tr>
                   </thead>
                   <tbody className="tbody">
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
+                    {order?.services?.map((item, index) => (
+                       <tr className="trow" key={item.id}>
+                        <td className="td"> {index + 1}</td>
+                        <td className="td"> {item?.service?.name}</td>
+                        <td className="td"> {item?.service?.name}</td>
+                        <td className="td"> {item?.service?.price}</td>
+                        <td className="td"> {item?.description}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

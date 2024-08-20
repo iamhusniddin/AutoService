@@ -31,10 +31,8 @@ function Xodimlar() {
   const [products, setProducts] = useState([]);
   const [staffModal, setStaffModal] = useState(false);
   const [openInfromModal, setOpenInformModal] = useState(false);
-  
+
   console.log(data);
-  
-  
 
   useEffect(() => {
     setProducts(data);
@@ -44,10 +42,6 @@ function Xodimlar() {
 
   const handleAddService = () => {
     setStaffModal(true);
-  };
-
-  const handleAdd = () => {
-    setStaffModal(false);
   };
 
 
@@ -61,7 +55,7 @@ function Xodimlar() {
   // informModal
   const handleInform = (item) => {
     setCurrentItem(item);
-    setOpenInformModal(true)
+    setOpenInformModal(true);
   };
 
   const handleDeleteConfirm = async () => {
@@ -75,84 +69,57 @@ function Xodimlar() {
     }
   };
 
- 
-
   return (
-    <div  className={`transition-all duration-300 ${
-      !isOpen ? "ml-[235px]" : "ml-0"
-    } w-full`}>
+    <div
+      className={`transition-all duration-300 ${
+        !isOpen ? "ml-[235px]" : "ml-0"
+      } w-full`}
+    >
       <main className="h-screen flex flex-col justify-between gap-7 p-[30px]">
-        <Navbar title="Xodimlar" name="Руслан" adminType="Админ" />
+        <Navbar title="Сотрудники" name="Руслан" adminType="Админ" />
 
         <section className="main-section">
           <form className=" flex flex-col lg:flex-row justify-between items-center p-[15px] mb-4">
             <div>
-            <div className="relative w-full sm:w-auto">
-              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-500"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
+              <div className="relative w-full sm:w-auto">
+                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <svg
+                    className="w-4 h-4 text-gray-500"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  type="search"
+                  className="block md:w-auto w-[200px] p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
+                  placeholder="Поиск..."
+                  required
+                />
               </div>
-              <input
-                type="search"
-                className="block w-40 sm:w-56 p-2 ps-9 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  "
-                placeholder="Search..."
-                required
-              />
-            </div>
             </div>
 
             <button
-              className="primary-btn flex items-center gap-2 mt-4 lg:mt-0 lg:self-end w-[160px] sm:w-auto hover:bg-slate-400 hover:text-white"
+              className="primary-btn flex items-center gap-2 mt-4 lg:mt-0  w-[210px] sm:w-auto hover:bg-slate-400 hover:text-white"
               type="button"
               onClick={handleAddService}
             >
-              <IoMdAdd className="text-xl" /> Xodim qo'shish
+              <IoMdAdd className="text-xl" /> Добавить сотрудника
             </button>
             {staffModal && (
               <StaffModal
                 // provider={serviceModal}
                 setStaffModal={setStaffModal}
               >
-                <FormControl className="flex flex-col gap-3">
-                  <FormLabel>Xodim qo'shish</FormLabel>
-                  <Input required type="text" placeholder="Username" />
-
-                  <Input required type="text" placeholder="Ism" />
-
-                  <Input required type="text" placeholder="Familiya" />
-
-                  <Input required type="number" placeholder="Telefon raqam" />
-
-                  <Input type="text" placeholder="Kasbi" />
-
-                  <Input type="number" placeholder="Maosh" />
-
-                  <Input required type="number" placeholder="Ish vaqti" />
-
-                  <Button
-                    onClick={handleAdd}
-                    className="self-end flex items-center gap-2"
-                    width={180}
-                    colorScheme="gray"
-                  >
-                    {" "}
-                    <AiFillContainer className="text-xl" />
-                    Jadvalni to'ldirish
-                  </Button>
-                </FormControl>
               </StaffModal>
             )}
           </form>
@@ -175,7 +142,7 @@ function Xodimlar() {
               <tbody className="tbody">
                 {loading ? (
                   <tr>
-                    <td className="text-lg border-0">Yuklanmoqda...</td>
+                    <td className="text-lg border-0">Загрузка...</td>
                   </tr>
                 ) : (
                   <>
@@ -211,7 +178,7 @@ function Xodimlar() {
                               handleDeleteConfirm={handleDeleteConfirm}
                             />
                           )}
-                          <button
+                          {/* <button
                           onClick={() => handleInform(item)}
                             type="button"
                             className="text-lg  text-blue-700"
@@ -221,20 +188,20 @@ function Xodimlar() {
                           {openInfromModal && (
                             <InformationModal  setOpenInformModal={setOpenInformModal}>
                               <div className="bg-blue-600 p-2 w-full mb-3">
-                               <h1 className="text-2xl font-semibold text-white">Xodim tavfsilotlari</h1>
+                               <h1 className="text-2xl font-semibold text-white">Данные о сотруднике</h1>
                               </div>
                               <h1 className="text-2xl font-semibold mb-2">{currentItem?.first_name + " " + currentItem?.last_name}</h1>
                               <hr className="mb-3"/>
                               <div className="flex flex-col gap-1">
-                                <h2 className="text-lg font-semibold ">Username: <span className="text-base font-normal">{currentItem?.username}</span></h2>
-                                <h2 className="text-lg font-semibold ">Telefon raqam: <span className="text-base font-normal">{currentItem?.phone_number}</span></h2>
-                                <h2 className="text-lg font-semibold ">Kasbi: <span className="text-base font-normal">{currentItem?.position}</span></h2>
-                                <h2 className="text-lg font-semibold ">Maosh: <span className="text-base font-normal">{currentItem?.salary}</span></h2>
-                                <h2 className="text-lg font-semibold ">Ish vaqti: <span className="text-base font-normal">{currentItem?.part}</span></h2>
+                                <h2 className="text-lg font-semibold ">Усернаме: <span className="text-base font-normal">{currentItem?.username}</span></h2>
+                                <h2 className="text-lg font-semibold ">Номер телефона: <span className="text-base font-normal">{currentItem?.phone_number}</span></h2>
+                                <h2 className="text-lg font-semibold ">Профессия: <span className="text-base font-normal">{currentItem?.position}</span></h2>
+                                <h2 className="text-lg font-semibold ">Зарплата: <span className="text-base font-normal">{currentItem?.salary}</span></h2>
+                                <h2 className="text-lg font-semibold ">Рабочее время: <span className="text-base font-normal">{currentItem?.part}</span></h2>
                               </div>
                             </InformationModal>
                           )
-                          }
+                          } */}
                         </td>
                       </tr>
                     ))}
