@@ -15,6 +15,7 @@ export default {
       fontFamily: {
         sans: ["Poppins", "sans-serif"], 
         cursive2: ["Montserrat", "cursive2"], 
+        cusrive3:["Noto Sans", "cursive3"]
       },
     },
   },

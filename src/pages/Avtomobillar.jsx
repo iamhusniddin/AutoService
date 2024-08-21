@@ -28,10 +28,11 @@ function Avtomobillar() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedProductName, setSelectedProductName] = useState(null);
   const [currentItem, setCurrentItem] = useState(null);
+  
   const [products, setProducts] = useState([]);
   const [carModal, setCarModal] = useState(false);
   const [openInfromModal, setOpenInformModal] = useState(false);
-  console.log(data);
+  
 
   useEffect(() => {
     setProducts(data);

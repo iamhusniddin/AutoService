@@ -76,7 +76,6 @@ function Details() {
     "Профессия",
     "Зарплата",
     "Рабочее время",
-    "Статус"
   ]
   
   const xarajatlar = [

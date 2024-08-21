@@ -108,7 +108,7 @@ function Xodimlar() {
               </div>
             </div>
 
-            <button
+            {/* <button
               className="primary-btn flex items-center gap-2 mt-4 lg:mt-0  w-[210px] sm:w-auto hover:bg-slate-400 hover:text-white"
               type="button"
               onClick={handleAddService}
@@ -121,7 +121,7 @@ function Xodimlar() {
                 setStaffModal={setStaffModal}
               >
               </StaffModal>
-            )}
+            )} */}
           </form>
 
           <div className="overflow-x-auto">
@@ -156,7 +156,7 @@ function Xodimlar() {
                         <td className="td"> {item?.position}</td>
                         <td className="td">{item?.salary}</td>
                         <td className="td">{item?.part}</td>
-                        <td className="td">
+                        {/* <td className="td">
                           {" "}
                           <button
                             type="button"
@@ -177,7 +177,7 @@ function Xodimlar() {
                               setDeleteModal={setDeleteModal}
                               handleDeleteConfirm={handleDeleteConfirm}
                             />
-                          )}
+                          )} */}
                           {/* <button
                           onClick={() => handleInform(item)}
                             type="button"
@@ -202,7 +202,7 @@ function Xodimlar() {
                             </InformationModal>
                           )
                           } */}
-                        </td>
+                        {/* </td> */}
                       </tr>
                     ))}
                   </>
