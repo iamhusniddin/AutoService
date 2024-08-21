@@ -51,9 +51,9 @@ function BuyurtmaTavfsiloti() {
                   <th className="border text-black font-bold">
                     Yaratilgan vaqti:
                   </th>
-                  <th className="border text-black font-bold">Umumiy:</th>
                   <th className="border text-black font-bold">To'langan:</th>
                   <th className="border text-black font-bold">Qarz:</th>
+                  <th className="border text-black font-bold">Umumiy:</th>
                 </tr>
               </thead>
               <tbody className="tbody">
@@ -67,9 +67,9 @@ function BuyurtmaTavfsiloti() {
                         })
                       : "N/A"}
                   </td>
-                  <td className="td">{order?.total}</td>
                   <td className="td">{order?.paid}</td>
                   <td className="td">{order?.debt}</td>
+                  <td className="td">{order?.total}</td>
                 </tr>
               </tbody>
             </table>
