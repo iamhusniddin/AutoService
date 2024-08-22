@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PDFDocument from "./PDFDocument";
 import { useParams } from "react-router-dom";
@@ -9,6 +9,7 @@ import { Button } from "@chakra-ui/react";
 import { MdPrint } from "react-icons/md";
 import { useSidebar } from "../context/SidebarContext";
 import { Order } from "../service/order";
+import { FaSave, FaCheck } from "react-icons/fa";
 
 function BuyurtmaTavfsiloti() {
   const { isOpen } = useSidebar();
@@ -18,6 +19,24 @@ function BuyurtmaTavfsiloti() {
   const { orderService, loading, error } = useFetch(() =>
     OrderService.getProduct(id)
   );
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [value, setValue] = useState("0");
+  const [tempValue, setTempValue] = useState(value); // Yangi qiymatni vaqtincha saqlash uchun
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    setTempValue(value); // Tahrirlash uchun mavjud qiymatni vaqtincha saqlaymiz
+  };
+
+  const handleInputChange = (e) => {
+    setTempValue(e.target.value);
+  };
+
+  const handleSaveClick = () => {
+    setValue(tempValue);
+    setIsEditing(false);
+  };
 
   console.log(order);
 
@@ -75,11 +94,14 @@ function BuyurtmaTavfsiloti() {
                 <tr>
                   <td className="td">
                     {order?.car?.created_at
-                      ? new Date(order.car.created_at).toLocaleString("en-GB", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })
+                      ? new Date(order?.created_at).toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          }
+                        )
                       : "N/A"}
                   </td>
                   <td className="td">{order?.paid}</td>
@@ -98,10 +120,16 @@ function BuyurtmaTavfsiloti() {
               <table className="min-w-full">
                 <thead className="thead">
                   <tr>
-                    <th className="th border text-black font-bold">Имя Фамилия</th>
-                    <th className="th border text-black font-bold">Номер телефона</th>
+                    <th className="th border text-black font-bold">
+                      Имя Фамилия
+                    </th>
+                    <th className="th border text-black font-bold">
+                      Номер телефона
+                    </th>
                     <th className="th border text-black font-bold">Машина</th>
-                    <th className="th border text-black font-bold">Государственный номер</th>
+                    <th className="th border text-black font-bold">
+                      Государственный номер
+                    </th>
                     <th className="th border text-black font-bold">Километр</th>
                   </tr>
                 </thead>
@@ -121,65 +149,65 @@ function BuyurtmaTavfsiloti() {
               </table>
             </div>
 
-          
-              {/* 1 */}
-              <div className=" p-3 shadow mt-5">
-                <h2 className="text-2xl font-semibold p-1 mb-1">Продукты</h2>
-                <hr />
-                <table className="w-full mt-2">
-                  <thead className="thead">
-                    <tr>
-                      <th className="border text-black font-bold">№</th>
-                      <th className="border text-black font-bold">Имя продукта</th>
-                      <th className="border text-black font-bold">Артикул </th>
-                      <th className="border text-black font-bold">Количество</th>
-                      <th className="border text-black font-bold">Скидка</th>
-                      <th className="border text-black font-bold">Сумма</th>
+            {/* 1 */}
+            <div className=" p-3 shadow mt-5">
+              <h2 className="text-2xl font-semibold p-1 mb-1">Продукты</h2>
+              <hr />
+              <table className="w-full mt-2">
+                <thead className="thead">
+                  <tr>
+                    <th className="border text-black font-bold">№</th>
+                    <th className="border text-black font-bold">
+                      Имя продукта
+                    </th>
+                    <th className="border text-black font-bold">Артикул </th>
+                    <th className="border text-black font-bold">Количество</th>
+                    <th className="border text-black font-bold">Скидка</th>
+                    <th className="border text-black font-bold">Сумма</th>
+                  </tr>
+                </thead>
+                <tbody className="tbody">
+                  {order?.products?.map((item, index) => (
+                    <tr className="trow" key={item.id}>
+                      <td className="td"> {index + 1}</td>
+                      <td className="td"> {item?.product?.name}</td>
+                      <td className="td"> {item?.product?.code}</td>
+                      <td className="td"> {item?.amount}</td>
+                      <td className="td"> {item?.product?.max_discount}</td>
+                      <td className="td"> {item?.product?.total_benefit}</td>
                     </tr>
-                  </thead>
-                  <tbody className="tbody">
-                    {order?.products?.map((item, index) => (
-                      <tr className="trow" key={item.id}>
-                        <td className="td"> {index + 1}</td>
-                        <td className="td"> {item?.product?.name}</td>
-                        <td className="td"> {item?.product?.code}</td>
-                        <td className="td"> {item?.amount}</td>
-                        <td className="td"> {item?.product?.max_discount}</td>
-                        <td className="td"> {item?.product?.total_benefit}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-              {/* 2 */}
-              <div className=" p-3 shadow mt-5 mb-5">
-                <h2 className="text-2xl font-semibold p-1 mb-1">Сервисы</h2>
-                <hr />
-                <table className="w-full mt-2">
-                  <thead className="thead">
-                    <tr>
-                      <th className="border text-black font-bold">№</th>
-                      <th className="border text-black font-bold">Сервис</th>
-                      <th className="border text-black font-bold">Сотрудник</th>
-                      <th className="border text-black font-bold">Доля</th>
-                      <th className="border text-black font-bold">Сумма</th>
+            {/* 2 */}
+            <div className=" p-3 shadow mt-5 mb-5">
+              <h2 className="text-2xl font-semibold p-1 mb-1">Сервисы</h2>
+              <hr />
+              <table className="w-full mt-2">
+                <thead className="thead">
+                  <tr>
+                    <th className="border text-black font-bold">№</th>
+                    <th className="border text-black font-bold">Сервис</th>
+                    <th className="border text-black font-bold">Сотрудник</th>
+                    <th className="border text-black font-bold">Доля</th>
+                    <th className="border text-black font-bold">Сумма</th>
+                  </tr>
+                </thead>
+                <tbody className="tbody">
+                  {order?.services?.map((item, index) => (
+                    <tr className="trow" key={item.id}>
+                      <td className="td"> {index + 1}</td>
+                      <td className="td"> {item?.service?.name}</td>
+                      <td className="td"> {item?.staff}</td>
+                      <td className="td"> {item?.part}</td>
+                      <td className="td"> {item?.total}</td>
                     </tr>
-                  </thead>
-                  <tbody className="tbody">
-                    {order?.services?.map((item, index) => (
-                      <tr className="trow" key={item.id}>
-                        <td className="td"> {index + 1}</td>
-                        <td className="td"> {item?.service?.name}</td>
-                        <td className="td"> {item?.staff}</td>
-                        <td className="td"> {item?.part}</td>
-                        <td className="td"> {item?.total}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
       </main>

@@ -139,7 +139,7 @@ function Asosiy() {
             <div
               data-aos="fade-right"
               data-aos-delay="100"
-              className="stats-card sm:w-[48%] md:w-[30%] lg:w-[24%] xl:w-[22%] "
+              className="stats-card w-[240px] h-[50px] sm:h-[60px] p-2"
             >
               <div>
                 <h3 className="text-sm text-secondary">Приход</h3>
@@ -153,7 +153,7 @@ function Asosiy() {
             <div
               data-aos="fade-down"
               data-aos-delay="100"
-              className="stats-card sm:w-[48%] md:w-[30%] lg:w-[24%] xl:w-[22%]"
+              className="stats-card w-[240px] h-[50px] sm:h-[60px] p-2"
             >
               <div>
                 <h3 className="text-sm text-secondary">Расход</h3>
@@ -167,7 +167,7 @@ function Asosiy() {
             <div
               data-aos="fade-left"
               data-aos-delay="100"
-              className="stats-card sm:w-[48%] md:w-[30%] lg:w-[24%] xl:w-[22%]"
+              className="stats-card w-[240px] h-[50px] sm:h-[60px] p-2"
             >
               <div>
                 <h3 className="text-sm text-secondary">Доход</h3>
@@ -180,11 +180,11 @@ function Asosiy() {
           </div>
 
           {/* graphics part*/}
-          <div className="flex justify-between gap-4 mb-[20px]">
+          <div className="flex flex-col sm:flex-row justify-between gap-4 mb-[20px]">
             <div
               data-aos="zoom-in-up"
               data-aos-duration="700"
-              className="bg-primary rounded-md shadow w-full lg:w-[74%] p-3 "
+              className="bg-primary rounded-md shadow w-full sm:w-[70%] p-3 "
             >
               <h3 className="text-lg font-semibold mb-4">
                 Общая информация о продаже{" "}
@@ -230,7 +230,7 @@ function Asosiy() {
               data-aos="fade-up"
               data-aos-delay="150"
               data-aos-offset="0"
-              className="bg-primary rounded-md shadow w-full lg:w-[25%] flex flex-col p-3 "
+              className="bg-primary rounded-md shadow w-full sm:w-[28%] flex flex-col p-3 "
             >
               <h3 className="text-lg font-semibold">
                 Расход <span className="text-red-500 font-cursive2">(сум)</span>
@@ -254,9 +254,9 @@ function Asosiy() {
           </div>
 
           {/* tables part */}
-          <div className="flex flex-row-reverse gap-4">
+         
             {/* 0 */}
-            <div
+            {/* <div
               data-aos="fade-down"
               data-aos-delay="150"
               data-aos-offset="0"
@@ -280,15 +280,14 @@ function Asosiy() {
                   <Tooltip />
                 </PieChart>
               </ResponsiveContainer>
-            </div>
+            </div> */}
             {/* 1 */}
             <div
-              data-aos="zoom-in"
-              data-aos-delay="200"
-              className="flex flex-col gap-2 bg-primary p-[10px] shadow rounded-lg w-full"
+             
+              className="flex flex-col gap-2 bg-primary p-[10px] shadow rounded-lg w-full overflow-x-auto"
             >
               <h3 className="pl-3 text-lg lg:text-xl">Топ товаров</h3>
-              <table className="w-full border-collapse text-xs lg:text-sm">
+              <table className="w-full border-collapse text-xs lg:text-sm overflow-x-auto">
                 <thead>
                   <tr>
                     <th className="p-[5px] border-b-[1px] border-white">#</th>
@@ -386,7 +385,7 @@ function Asosiy() {
                 </tbody>
               </table>
             </div> */}
-          </div>
+          
         </section>
       </main>
     </div>
